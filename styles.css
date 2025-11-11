@@ -1,0 +1,96 @@
+:root {
+  --step-active: #0d6efd;
+  --step-muted: #cfd8e3;
+}
+
+body {
+  background: #f5f7fb;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.step-indicator {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.step-indicator__item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--step-muted);
+  font-weight: 600;
+}
+
+.step-indicator__circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--step-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  background: #fff;
+}
+
+.step-indicator__item.active {
+  color: var(--step-active);
+}
+
+.step-indicator__item.active .step-indicator__circle {
+  border-color: var(--step-active);
+  background: var(--step-active);
+  color: #fff;
+}
+
+.form-step {
+  display: none;
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+.form-step.active {
+  display: block;
+}
+
+.form-label {
+  margin-bottom: 0.25rem;
+}
+
+.input-group-text i {
+  color: #6c757d;
+}
+
+.form-step .card,
+.form-step .alert {
+  margin-bottom: 0;
+}
+
+.form-step .alert {
+  border: none;
+}
+
+.form-control.is-valid,
+.form-select.is-valid {
+  border-color: #38b000;
+}
+
+.form-control.is-invalid,
+.form-select.is-invalid {
+  border-color: #dc3545;
+}
+
+.btn-group .btn {
+  font-weight: 600;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
