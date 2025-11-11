@@ -11,21 +11,65 @@ document.addEventListener("DOMContentLoaded", () => {
   const statusAlert = document.getElementById("formStatus");
   const pageSizeInput = document.getElementById("pageSize");
   const pageSizeValue = document.getElementById("pageSizeValue");
+  const resultsContainer = document.getElementById("resultsContainer");
+  const resultsCount = document.getElementById("resultsCount");
+  const loadingState = document.getElementById("loadingState");
+  const requestPreview = document.getElementById("requestPreview");
 
   const categoryGroup = document.getElementById("categoryGroup");
-  const sourceGroup = document.getElementById("sourceGroup");
+  const languageGroup = document.getElementById("languageGroup");
+  const sortGroup = document.getElementById("sortGroup");
+  const countryGroup = document.getElementById("countryGroup");
   const countryField = document.getElementById("country");
+  const categoryField = document.getElementById("category");
+  const sourceField = document.getElementById("source");
+  const languageField = document.getElementById("language");
+  const sortField = document.getElementById("sortBy");
+  const pageInput = document.getElementById("page");
+  const dateHint = document.getElementById("dateHint");
+  const sourceConstraint = document.getElementById("sourceConstraint");
   const countryHint = document.getElementById("countryHint");
   const modeRadios = document.querySelectorAll("input[name='mode']");
   const fromDate = document.getElementById("fromDate");
   const toDate = document.getElementById("toDate");
 
   let currentStep = 0;
+  const dateFields = [fromDate, toDate];
+
+  const API_KEY = "2afacfdf7c40497684e925f3446244cb";
+  const API_ENDPOINTS = {
+    "top-headlines": "https://newsapi.org/v2/top-headlines",
+    everything: "https://newsapi.org/v2/everything",
+  };
 
   const patterns = {
     search: /^[A-Za-z0-9\s'"&-]{2,}$/,
-    source: /^[a-z0-9-]+$/,
   };
+  const STATUS_CLASS = {
+    info: "alert-info",
+    success: "alert-success",
+    error: "alert-danger",
+  };
+
+  const clampNumber = (value, min, max, fallback) => {
+    if (Number.isFinite(value)) {
+      return Math.min(Math.max(value, min), max);
+    }
+    return fallback;
+  };
+
+  const normalizeDateValue = (value) => {
+    if (!value) return null;
+    const date = new Date(`${value}T00:00:00`);
+    return Number.isNaN(date.getTime()) ? null : date;
+  };
+
+  const formatDateForInput = (date) =>
+    date ? date.toISOString().split("T")[0] : "";
+
+  const getCurrentMode = () =>
+    document.querySelector("input[name='mode']:checked")?.value ||
+    "everything";
 
   const toggleVisibility = (group, show) => {
     group.classList.toggle("visually-hidden", !show);
@@ -35,13 +79,65 @@ document.addEventListener("DOMContentLoaded", () => {
       .forEach((field) => (field.disabled = !show));
   };
 
+  const configureDateFilters = (enable) => {
+    dateFields.forEach((field) => {
+      field.disabled = !enable;
+      if (!enable) {
+        field.value = "";
+        updateFeedback(field, "");
+      }
+    });
+    dateHint.textContent = enable
+      ? "Format: JJJJ-MM-TT. Das Bis-Datum darf nicht vor dem Von-Datum liegen."
+      : "Datumsfilter stehen nur im Everything-Modus zur Verfügung.";
+  };
+
+  const applySourceConstraints = () => {
+    const isTopHeadlines = getCurrentMode() === "top-headlines";
+    const hasSource = Boolean(sourceField.value.trim());
+    const shouldRestrict = isTopHeadlines && hasSource;
+
+    if (isTopHeadlines) {
+      categoryField.disabled = shouldRestrict;
+      countryField.disabled = shouldRestrict;
+      categoryGroup.classList.toggle("field-disabled", shouldRestrict);
+      countryGroup.classList.toggle("field-disabled", shouldRestrict);
+
+      if (shouldRestrict) {
+        categoryField.value = "";
+        countryField.value = "";
+        sourceConstraint.classList.remove("d-none");
+      } else {
+        sourceConstraint.classList.add("d-none");
+      }
+    } else {
+      categoryGroup.classList.remove("field-disabled");
+      countryGroup.classList.remove("field-disabled");
+      sourceConstraint.classList.add("d-none");
+    }
+  };
+
   const toggleModeFields = (modeValue) => {
     const isTopHeadlines = modeValue === "top-headlines";
-    toggleVisibility(categoryGroup, isTopHeadlines);
-    toggleVisibility(sourceGroup, !isTopHeadlines);
 
-    countryField.disabled = !isTopHeadlines;
-    countryField.value = isTopHeadlines ? countryField.value : "";
+    toggleVisibility(categoryGroup, isTopHeadlines);
+    toggleVisibility(countryGroup, isTopHeadlines);
+    toggleVisibility(languageGroup, !isTopHeadlines);
+    toggleVisibility(sortGroup, !isTopHeadlines);
+
+    if (isTopHeadlines) {
+      languageField.value = "";
+      sortField.value = "publishedAt";
+      fromDate.value = "";
+      toDate.value = "";
+    } else {
+      categoryField.value = "";
+      countryField.value = "";
+    }
+
+    configureDateFilters(!isTopHeadlines);
+    applySourceConstraints();
+
     countryHint.textContent = isTopHeadlines
       ? "Länderauswahl ist nur mit Kategorien kombinierbar."
       : "Land kann im Everything-Modus nicht verwendet werden.";
@@ -59,6 +155,20 @@ document.addEventListener("DOMContentLoaded", () => {
     prevBtn.disabled = currentStep === 0;
     nextBtn.classList.toggle("d-none", currentStep === formSteps.length - 1);
     submitBtn.classList.toggle("d-none", currentStep !== formSteps.length - 1);
+  };
+
+  const setStatus = (variant, message) => {
+    statusAlert.classList.remove(...Object.values(STATUS_CLASS));
+    statusAlert.classList.add(STATUS_CLASS[variant] || STATUS_CLASS.info);
+    statusAlert.querySelector("span").textContent = message;
+  };
+
+  const setLoading = (isLoading) => {
+    loadingState.classList.toggle("d-none", !isLoading);
+    submitBtn.disabled = isLoading;
+    nextBtn.disabled = isLoading;
+    prevBtn.disabled = isLoading || currentStep === 0;
+    resetBtn.disabled = isLoading;
   };
 
   const updateFeedback = (field, message = "") => {
@@ -103,17 +213,9 @@ document.addEventListener("DOMContentLoaded", () => {
       return true;
     }
 
-    const value = field.value.trim();
-    let message = "";
-
-    if (value && !patterns.source.test(value)) {
-      message =
-        "Nur Kleinbuchstaben, Zahlen und Bindestriche (z. B. the-verge).";
-    }
-
-    field.setCustomValidity(message);
-    updateFeedback(field, message);
-    return !message;
+    field.setCustomValidity("");
+    updateFeedback(field, "");
+    return true;
   };
 
   const validatePage = () => {
@@ -192,6 +294,360 @@ document.addEventListener("DOMContentLoaded", () => {
     updateStepUI();
   };
 
+  const formatDateTime = (isoString) => {
+    if (!isoString) return "kein Datum";
+    try {
+      return new Date(isoString).toLocaleString("de-CH", {
+        dateStyle: "medium",
+        timeStyle: "short",
+      });
+    } catch {
+      return isoString;
+    }
+  };
+
+  const placeholderImage =
+    "data:image/svg+xml;charset=UTF-8," +
+    encodeURIComponent(
+      `<svg xmlns="http://www.w3.org/2000/svg" width="320" height="240" viewBox="0 0 320 240" fill="none"><rect width="320" height="240" fill="#E8ECF4"/><path d="M40 180L120 100L180 160L240 120L280 160V200H40V180Z" fill="#C9D6EB"/><circle cx="90" cy="80" r="25" fill="#C9D6EB"/><text x="160" y="130" font-family="Arial, sans-serif" font-size="24" fill="#94A3B8" text-anchor="middle">News</text></svg>`
+    );
+
+  const createArticleElement = (article) => {
+    const wrapper = document.createElement("article");
+    wrapper.className = "news-card";
+
+    const img = document.createElement("img");
+    img.className = "news-card__image";
+    img.src = article.urlToImage || placeholderImage;
+    img.alt = article.title || "News Bild";
+    img.loading = "lazy";
+    img.onerror = () => {
+      img.src = placeholderImage;
+    };
+
+    const body = document.createElement("div");
+    body.className = "news-card__body";
+
+    const title = document.createElement("h3");
+    title.textContent = article.title || "Ohne Titel";
+
+    const meta = document.createElement("p");
+    meta.className = "news-card__meta";
+    const sourceName = article.source?.name || "Unbekannte Quelle";
+    const author = article.author ? ` · ${article.author}` : "";
+    meta.textContent = `${sourceName}${author} · ${formatDateTime(
+      article.publishedAt
+    )}`;
+
+    const description = document.createElement("p");
+    description.className = "news-card__description";
+    description.textContent =
+      article.description || "Keine Beschreibung verfügbar.";
+
+    const actions = document.createElement("div");
+    actions.className = "news-card__actions";
+    const link = document.createElement("a");
+    link.href = article.url;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.className = "btn btn-sm btn-outline-primary";
+    link.textContent = "Zum Artikel";
+
+    actions.appendChild(link);
+    body.append(title, meta, description, actions);
+    wrapper.append(img, body);
+    return wrapper;
+  };
+
+  const renderArticles = (articles = [], meta = {}) => {
+    resultsContainer.innerHTML = "";
+
+    if (!articles.length) {
+      const placeholder = document.createElement("p");
+      placeholder.className = "text-muted mb-0";
+      if (meta.initial) {
+        placeholder.textContent =
+          "Noch keine Ergebnisse. Starte eine Suche, um Artikel anzeigen zu lassen.";
+      } else if (meta.page && meta.page > 1) {
+        placeholder.textContent = `Keine Ergebnisse auf Seite ${meta.page}. Bitte wähle eine frühere Seite oder passe die Filter an.`;
+      } else {
+        placeholder.textContent =
+          "Keine Ergebnisse gefunden. Bitte passe deine Filter an.";
+      }
+      resultsContainer.appendChild(placeholder);
+      return;
+    }
+
+    const fragment = document.createDocumentFragment();
+    articles.forEach((article) => fragment.appendChild(createArticleElement(article)));
+    resultsContainer.appendChild(fragment);
+  };
+
+  const updateResultCount = (
+    displayedCount = 0,
+    totalCount = 0,
+    page = 1,
+    limit = 0
+  ) => {
+    const safeDisplayed = Number.isFinite(displayedCount)
+      ? displayedCount
+      : 0;
+    const safeTotal = Number.isFinite(totalCount) ? totalCount : 0;
+    const parts = [`Seite ${page}`, `${safeDisplayed} Artikel`];
+    if (safeTotal) {
+      parts.push(`von ${safeTotal}`);
+    }
+    if (limit) {
+      parts.push(`Limit ${limit}`);
+    }
+    resultsCount.textContent = parts.join(" · ");
+  };
+
+  const collectFormValues = () => {
+    const formData = new FormData(form);
+    const warnings = [];
+    const sanitizeText = (value) => (value ? value.trim() : "");
+
+    const rawPageSize = Number(formData.get("pageSize"));
+    const pageSize = clampNumber(rawPageSize, 5, 100, 20);
+    if (rawPageSize !== pageSize) {
+      warnings.push(
+        "Die Anzahl Ergebnisse wurde auf den erlaubten Bereich (5-100) angepasst."
+      );
+      pageSizeInput.value = pageSize;
+      pageSizeValue.textContent = pageSize;
+    }
+
+    const rawPage = Number(formData.get("page"));
+    const page = clampNumber(rawPage, 1, 100, 1);
+    if (rawPage !== page) {
+      warnings.push("Seitenzahlen sind nur zwischen 1 und 100 erlaubt.");
+      pageInput.value = page;
+    }
+
+    let fromValue = normalizeDateValue(formData.get("fromDate"));
+    let toValue = normalizeDateValue(formData.get("toDate"));
+    const dateLimit = new Date();
+    dateLimit.setDate(dateLimit.getDate() - 30);
+    dateLimit.setHours(0, 0, 0, 0);
+
+    if (fromValue && fromValue < dateLimit) {
+      fromValue = new Date(dateLimit);
+      warnings.push(
+        "Das Von-Datum darf höchstens 30 Tage zurückliegen und wurde angepasst."
+      );
+      fromDate.value = formatDateForInput(fromValue);
+    }
+
+    if (toValue && toValue < dateLimit) {
+      toValue = new Date(dateLimit);
+      warnings.push(
+        "Das Bis-Datum darf höchstens 30 Tage zurückliegen und wurde angepasst."
+      );
+      toDate.value = formatDateForInput(toValue);
+    }
+
+    if (fromValue && toValue && toValue < fromValue) {
+      toValue = new Date(fromValue);
+      warnings.push("Das Bis-Datum wurde auf das Von-Datum gesetzt.");
+      toDate.value = formatDateForInput(toValue);
+    }
+
+    const values = {
+      mode: formData.get("mode") || "everything",
+      searchTerm: sanitizeText(formData.get("searchTerm")),
+      category: sanitizeText(formData.get("category")),
+      country: sanitizeText(formData.get("country")),
+      language: sanitizeText(formData.get("language")),
+      sortBy: sanitizeText(formData.get("sortBy")) || "publishedAt",
+      fromDate: fromValue ? formatDateForInput(fromValue) : "",
+      toDate: toValue ? formatDateForInput(toValue) : "",
+      source: sanitizeText(formData.get("source")).toLowerCase(),
+      pageSize,
+      page,
+    };
+
+    return { values, warnings };
+  };
+
+  const buildQueryParams = (values, modeOverride = null) => {
+    const params = new URLSearchParams();
+    const warnings = [];
+    const {
+      searchTerm,
+      category,
+      country,
+      language,
+      sortBy,
+      fromDate,
+      toDate,
+      source,
+      pageSize,
+      page,
+    } = values;
+    const mode = modeOverride || values.mode || "everything";
+
+    const addParam = (key, value) => {
+      if (value !== undefined && value !== null && value !== "") {
+        params.set(key, value);
+      }
+    };
+
+    addParam("apiKey", API_KEY);
+    addParam("pageSize", pageSize);
+    addParam("page", page);
+    addParam("q", searchTerm);
+
+    if (mode === "top-headlines") {
+      const hasSource = Boolean(source);
+      if (hasSource) {
+        addParam("sources", source);
+        if (category) {
+          warnings.push(
+            "Kategorie kann gemeinsam mit Quellen nicht verwendet werden und wurde ignoriert."
+          );
+        }
+        if (country) {
+          warnings.push(
+            "Land kann gemeinsam mit Quellen nicht verwendet werden und wurde ignoriert."
+          );
+        }
+      } else {
+        addParam("category", category);
+        addParam("country", country);
+      }
+    } else {
+      addParam("language", language);
+      addParam("sortBy", sortBy);
+      addParam("from", fromDate);
+      addParam("to", toDate);
+      addParam("sources", source);
+    }
+
+    return { params, warnings };
+  };
+
+  const updateRequestPreview = (url) => {
+    requestPreview.textContent = `GET ${url}`;
+  };
+
+  const fetchNews = async () => {
+    const { values, warnings: formWarnings } = collectFormValues();
+    let modeToUse = values.mode || "everything";
+    let attempt = 0;
+    const maxAttempts = modeToUse === "top-headlines" ? 2 : 1;
+    let articles = [];
+    let totalResults = 0;
+    let latestWarnings = [...formWarnings];
+    let lastModeUsed = modeToUse;
+
+    setLoading(true);
+
+    try {
+      while (attempt < maxAttempts) {
+        const { params, warnings: paramWarnings } = buildQueryParams(
+          values,
+          modeToUse
+        );
+        const combinedWarnings = [...latestWarnings, ...paramWarnings];
+        const endpoint = API_ENDPOINTS[modeToUse] || API_ENDPOINTS.everything;
+        const url = `${endpoint}?${params.toString()}`;
+        lastModeUsed = modeToUse;
+        latestWarnings = combinedWarnings;
+
+        updateRequestPreview(url);
+        setStatus(
+          "info",
+          combinedWarnings.length
+            ? `${combinedWarnings.join(" ")} News werden geladen …`
+            : "News werden geladen …"
+        );
+
+        const response = await fetch(url);
+        const payload = await response.json().catch(() => ({}));
+
+        if (!response.ok || payload.status !== "ok") {
+          const message =
+            payload.message ||
+            `Anfrage fehlgeschlagen (Status ${response.status}).`;
+          throw new Error(message);
+        }
+
+        articles = payload.articles || [];
+        totalResults = payload.totalResults ?? articles.length;
+
+        if (
+          articles.length === 0 &&
+          modeToUse === "top-headlines" &&
+          attempt === 0
+        ) {
+          latestWarnings = [
+            ...combinedWarnings,
+            "Keine Top Headlines gefunden, wechsle automatisch auf Everything.",
+          ];
+          modeToUse = "everything";
+          attempt += 1;
+          continue;
+        }
+
+        break;
+      }
+
+      updateResultCount(
+        articles.length,
+        totalResults,
+        values.page,
+        values.pageSize
+      );
+      renderArticles(articles, {
+        ...values,
+        requestMode: lastModeUsed,
+      });
+
+      if (articles.length) {
+        const parts = [
+          `Modus: ${
+            lastModeUsed === "top-headlines" ? "Top Headlines" : "Everything"
+          }`,
+          `Seite ${values.page} (${articles.length}${
+            totalResults ? ` von ${totalResults}` : ""
+          } Artikel)`,
+          `Limit ${values.pageSize}`,
+        ];
+        if (values.fromDate || values.toDate) {
+          parts.push(
+            `Zeitraum ${values.fromDate || "-"} bis ${
+              values.toDate || "Heute"
+            }.`
+          );
+        }
+        if (latestWarnings.length) {
+          parts.push(`Hinweis: ${latestWarnings.join(" ")}`);
+        }
+        setStatus("success", parts.join(" · "));
+      } else {
+        const msg =
+          lastModeUsed === "top-headlines"
+            ? `Anfrage erfolgreich, aber keine Artikel auf Seite ${values.page} gefunden. Bitte Filter oder Seite anpassen.`
+            : `Auch im Everything-Modus wurden keine Artikel gefunden. Bitte Filter anpassen.`;
+        setStatus(
+          "info",
+          latestWarnings.length ? `${msg} Hinweise: ${latestWarnings.join(" ")}` : msg
+        );
+      }
+    } catch (error) {
+      renderArticles([], values);
+      updateResultCount(0, 0, values.page, values.pageSize);
+      setStatus(
+        "error",
+        error.message ||
+          "Unbekannter Fehler bei der Anfrage. Bitte später erneut versuchen."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   modeRadios.forEach((radio) => {
     radio.addEventListener("change", (event) => {
       toggleModeFields(event.target.value);
@@ -210,6 +666,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   fromDate.addEventListener("change", validateDates);
   toDate.addEventListener("change", validateDates);
+
+  sourceField.addEventListener("change", () => {
+    applySourceConstraints();
+    validateSource();
+  });
+
+  const enforcePageBounds = () => {
+    const sanitized = clampNumber(Number(pageInput.value), 1, 100, 1);
+    pageInput.value = sanitized;
+  };
+
+  pageInput.addEventListener("change", enforcePageBounds);
+  pageInput.addEventListener("blur", enforcePageBounds);
 
   nextBtn.addEventListener("click", () => {
     if (validateStep(currentStep)) {
@@ -233,17 +702,14 @@ document.addEventListener("DOMContentLoaded", () => {
       if (firstInvalidStepIndex !== -1) {
         moveToStep(firstInvalidStepIndex);
       }
-      statusAlert.classList.remove("alert-success");
-      statusAlert.classList.add("alert-danger");
-      statusAlert.querySelector("span").textContent =
-        "Bitte korrigiere die markierten Felder, bevor du die Suche startest.";
+      setStatus(
+        "error",
+        "Bitte korrigiere die markierten Felder, bevor du die Suche startest."
+      );
       return;
     }
 
-    statusAlert.classList.remove("alert-danger");
-    statusAlert.classList.add("alert-success");
-    statusAlert.querySelector("span").textContent =
-      "Alle Angaben sind valide. Anfrage kann jetzt gegen die News API gesendet werden.";
+    fetchNews();
   });
 
   resetBtn.addEventListener("click", () => {
@@ -251,19 +717,28 @@ document.addEventListener("DOMContentLoaded", () => {
     form.querySelectorAll(".is-valid, .is-invalid").forEach((field) => {
       field.classList.remove("is-valid", "is-invalid");
     });
-    statusAlert.classList.remove("alert-danger", "alert-success");
-    statusAlert.classList.add("alert-info");
-    statusAlert.querySelector("span").textContent =
-      "Noch keine Anfrage gesendet. Prüfe deine Angaben und starte die Suche.";
-    pageSizeValue.textContent = pageSizeInput.value;
-    toggleModeFields(
-      document.querySelector("input[name='mode']:checked").value
+    setStatus(
+      "info",
+      "Noch keine Anfrage gesendet. Prüfe deine Angaben und starte die Suche."
     );
+    pageSizeValue.textContent = pageSizeInput.value;
+    toggleModeFields(getCurrentMode());
     moveToStep(0);
+    renderArticles([], { initial: true, page: 1 });
+    updateResultCount(0, 0, 1, Number(pageSizeInput.value));
+    loadingState.classList.add("d-none");
+    updateRequestPreview(
+      `${API_ENDPOINTS[getCurrentMode()] || API_ENDPOINTS.everything}?apiKey=${API_KEY}`
+    );
   });
 
   // Initial state
   toggleModeFields(document.querySelector("input[name='mode']:checked").value);
   pageSizeValue.textContent = pageSizeInput.value;
+  renderArticles([], { initial: true, page: 1 });
+  updateResultCount(0, 0, 1, Number(pageSizeInput.value));
+  updateRequestPreview(
+    `${API_ENDPOINTS[getCurrentMode()] || API_ENDPOINTS.everything}?apiKey=${API_KEY}`
+  );
   updateStepUI();
 });

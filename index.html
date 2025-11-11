@@ -29,7 +29,7 @@
         </p>
       </header>
 
-      <section class="card shadow-sm border-0">
+      <section class="card shadow-sm border-0 mb-4">
         <div class="card-body p-4">
           <div class="step-indicator mb-4" aria-label="Formularfortschritt">
             <span class="step-indicator__item active" data-step-label="Basis">
@@ -69,7 +69,6 @@
                       name="mode"
                       id="modeTop"
                       value="top-headlines"
-                      checked
                     />
                     <label class="btn btn-outline-primary" for="modeTop">
                       <i class="bi bi-lightning-charge me-1"></i>Top Headlines
@@ -81,6 +80,7 @@
                       name="mode"
                       id="modeEverything"
                       value="everything"
+                      checked
                     />
                     <label class="btn btn-outline-primary" for="modeEverything">
                       <i class="bi bi-infinity me-1"></i>Everything
@@ -143,25 +143,37 @@
                   <div id="categoryError" class="invalid-feedback"></div>
                 </div>
 
-                <div class="col-md-6 visually-hidden" id="sourceGroup">
+                <div class="col-md-6" id="sourceGroup">
                   <label for="source" class="form-label fw-semibold">
                     Quelle
                   </label>
-                  <div class="input-group">
-                    <span class="input-group-text">
-                      <i class="bi bi-rss"></i>
-                    </span>
-                    <input
-                      type="text"
-                      id="source"
-                      name="source"
-                      class="form-control"
-                      placeholder="z. B. the-verge"
-                      aria-describedby="sourceHint sourceError"
-                    />
-                  </div>
+                  <select
+                    id="source"
+                    name="source"
+                    class="form-select"
+                    aria-describedby="sourceHint sourceError"
+                  >
+                    <option value="">Keine Auswahl</option>
+                    <optgroup label="USA">
+                      <option value="cnn">CNN</option>
+                      <option value="abc-news">ABC News</option>
+                      <option value="cnbc">CNBC</option>
+                      <option value="the-washington-post">The Washington Post</option>
+                      <option value="the-verge">The Verge</option>
+                      <option value="techcrunch">TechCrunch</option>
+                    </optgroup>
+                    <optgroup label="Deutschland">
+                      <option value="bild">BILD</option>
+                      <option value="die-zeit">DIE ZEIT</option>
+                      <option value="spiegel-online">SPIEGEL Online</option>
+                      <option value="der-tagesspiegel">Der Tagesspiegel</option>
+                    </optgroup>
+                  </select>
                   <div id="sourceHint" class="form-text">
-                    Für Everything können einzelne Quellen (Slug, nur Kleinbuchstaben &amp; Bindestrich) angegeben werden.
+                    Wähle eine der unterstützen NewsAPI-Quellen. Im Top-Headlines-Modus deaktiviert eine gewählte Quelle Land und Kategorie.
+                  </div>
+                  <div id="sourceConstraint" class="form-text text-danger d-none">
+                    Quelle aktiv: Land und Kategorie sind für Top Headlines deaktiviert.
                   </div>
                   <div id="sourceError" class="invalid-feedback"></div>
                 </div>
@@ -171,7 +183,7 @@
             <!-- Step 2 -->
             <section class="form-step" data-step="2" aria-label="Filter einstellen">
               <div class="row g-3">
-                <div class="col-md-4">
+                <div class="col-md-4" id="countryGroup">
                   <label for="country" class="form-label fw-semibold">Land</label>
                   <select
                     id="country"
@@ -193,7 +205,7 @@
                   <div id="countryError" class="invalid-feedback"></div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-4" id="languageGroup">
                   <label for="language" class="form-label fw-semibold">
                     Sprache
                   </label>
@@ -209,9 +221,12 @@
                     <option value="it">Italienisch</option>
                     <option value="es">Spanisch</option>
                   </select>
+                  <div id="languageHint" class="form-text">
+                    Sprachfilter ist nur im Everything-Modus aktiv.
+                  </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-4" id="sortGroup">
                   <label for="sortBy" class="form-label fw-semibold">
                     Sortierung
                   </label>
@@ -220,6 +235,9 @@
                     <option value="relevancy">Relevanz</option>
                     <option value="popularity">Beliebtheit</option>
                   </select>
+                  <div id="sortHint" class="form-text">
+                    Sortierung steht ausschließlich im Everything-Modus zur Verfügung.
+                  </div>
                 </div>
 
                 <div class="col-md-6">
@@ -252,7 +270,7 @@
 
                 <div class="col-12">
                   <div id="dateHint" class="form-text">
-                    Format: JJJJ-MM-TT. Das Bis-Datum darf nicht vor dem Von-Datum liegen.
+                    Datumsfilter stehen nur im Everything-Modus zur Verfügung. Format: JJJJ-MM-TT, Bis-Datum darf nicht vor dem Von-Datum liegen.
                   </div>
                 </div>
               </div>
@@ -342,6 +360,47 @@
               </div>
             </div>
           </form>
+        </div>
+      </section>
+
+      <section class="card shadow-sm border-0" id="resultsSection" aria-live="polite">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <p class="text-uppercase text-primary fw-semibold mb-1">Ausgabe</p>
+              <h2 class="h5 mb-0">Gefundene Artikel</h2>
+            </div>
+            <span class="badge text-bg-light" id="resultsCount">Seite 1 · 0 Artikel</span>
+          </div>
+
+          <div id="loadingState" class="alert alert-secondary d-none" role="status">
+            <div class="d-flex align-items-center gap-2">
+              <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div>
+              <span>News werden geladen …</span>
+            </div>
+          </div>
+
+          <div id="resultsContainer" class="news-list">
+            <p class="text-muted mb-0">
+              Noch keine Ergebnisse. Starte eine Suche, um Artikel anzeigen zu lassen.
+            </p>
+          </div>
+
+          <div class="request-preview mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div>
+                <p class="text-uppercase text-primary fw-semibold mb-1">
+                  Letzter Request
+                </p>
+                <p class="text-muted mb-0 small">
+                  Vollständige GET-URL inkl. Query-Parametern (API-Key wird aus Sicherheitsgründen nur zu Debugzwecken angezeigt).
+                </p>
+              </div>
+            </div>
+            <pre class="request-preview__code" id="requestPreview">
+GET https://newsapi.org/v2/everything
+            </pre>
+          </div>
         </div>
       </section>
     </main>
