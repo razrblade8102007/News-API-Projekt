@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const sortField = document.getElementById("sortBy");
   const pageInput = document.getElementById("page");
   const dateHint = document.getElementById("dateHint");
+  const themeToggle = document.getElementById("themeToggle");
   const sourceConstraint = document.getElementById("sourceConstraint");
   const countryHint = document.getElementById("countryHint");
   const modeRadios = document.querySelectorAll("input[name='mode']");
@@ -67,9 +68,62 @@ document.addEventListener("DOMContentLoaded", () => {
   const formatDateForInput = (date) =>
     date ? date.toISOString().split("T")[0] : "";
 
+  const formatDateForLabel = (date) =>
+    date
+      ? new Intl.DateTimeFormat("de-CH", { dateStyle: "medium" }).format(date)
+      : "";
+
+  const getLatestDate = () => {
+    const date = new Date();
+    date.setHours(0, 0, 0, 0);
+    return date;
+  };
+
+  const getEarliestDate = () => {
+    const date = new Date();
+    date.setDate(date.getDate() - 30);
+    date.setHours(0, 0, 0, 0);
+    return date;
+  };
+
+  const applyDateBoundaries = () => {
+    const minDate = formatDateForInput(getEarliestDate());
+    const maxDate = formatDateForInput(getLatestDate());
+    dateFields.forEach((field) => {
+      field.min = minDate;
+      field.max = maxDate;
+    });
+  };
+
   const getCurrentMode = () =>
     document.querySelector("input[name='mode']:checked")?.value ||
     "everything";
+
+  const applyTheme = (theme) => {
+    document.documentElement.setAttribute("data-theme", theme);
+    const isDark = theme === "dark";
+    themeToggle.setAttribute("aria-pressed", String(isDark));
+    themeToggle.innerHTML = isDark
+      ? '<i class="bi bi-sun-fill" aria-hidden="true"></i>'
+      : '<i class="bi bi-moon-stars-fill" aria-hidden="true"></i>';
+  };
+
+  const detectSystemTheme = () =>
+    window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+
+  const initializeTheme = () => {
+    const storedTheme = localStorage.getItem("newsTheme");
+    const theme = storedTheme || detectSystemTheme();
+    applyTheme(theme);
+  };
+
+  const toggleTheme = () => {
+    const currentTheme =
+      document.documentElement.getAttribute("data-theme") || "light";
+    const nextTheme = currentTheme === "light" ? "dark" : "light";
+    localStorage.setItem("newsTheme", nextTheme);
+    applyTheme(nextTheme);
+  };
 
   const toggleVisibility = (group, show) => {
     group.classList.toggle("visually-hidden", !show);
@@ -119,6 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const toggleModeFields = (modeValue) => {
     const isTopHeadlines = modeValue === "top-headlines";
+    applyDateBoundaries();
 
     toggleVisibility(categoryGroup, isTopHeadlines);
     toggleVisibility(countryGroup, isTopHeadlines);
@@ -237,8 +292,30 @@ document.addEventListener("DOMContentLoaded", () => {
     const toValue = toDate.value;
     let fromMessage = "";
     let toMessage = "";
+    const earliest = getEarliestDate();
+    const latest = getLatestDate();
+    const earliestLabel = formatDateForLabel(earliest);
+    const latestLabel = formatDateForLabel(latest);
 
-    if (fromValue && toValue && fromValue > toValue) {
+    if (fromValue) {
+      const fromDateObj = new Date(fromValue);
+      if (fromDateObj < earliest) {
+        fromMessage = `Frühestes Datum ist ${earliestLabel}.`;
+      } else if (fromDateObj > latest) {
+        fromMessage = `Datum darf nicht nach ${latestLabel} liegen.`;
+      }
+    }
+
+    if (toValue) {
+      const toDateObj = new Date(toValue);
+      if (toDateObj < earliest) {
+        toMessage = `Frühestes Datum ist ${earliestLabel}.`;
+      } else if (toDateObj > latest) {
+        toMessage = `Datum darf nicht nach ${latestLabel} liegen.`;
+      }
+    }
+
+    if (!fromMessage && !toMessage && fromValue && toValue && fromValue > toValue) {
       fromMessage = "Startdatum darf nicht nach dem Enddatum liegen.";
       toMessage = "Enddatum darf nicht vor dem Startdatum liegen.";
     }
@@ -425,33 +502,8 @@ document.addEventListener("DOMContentLoaded", () => {
       pageInput.value = page;
     }
 
-    let fromValue = normalizeDateValue(formData.get("fromDate"));
-    let toValue = normalizeDateValue(formData.get("toDate"));
-    const dateLimit = new Date();
-    dateLimit.setDate(dateLimit.getDate() - 30);
-    dateLimit.setHours(0, 0, 0, 0);
-
-    if (fromValue && fromValue < dateLimit) {
-      fromValue = new Date(dateLimit);
-      warnings.push(
-        "Das Von-Datum darf höchstens 30 Tage zurückliegen und wurde angepasst."
-      );
-      fromDate.value = formatDateForInput(fromValue);
-    }
-
-    if (toValue && toValue < dateLimit) {
-      toValue = new Date(dateLimit);
-      warnings.push(
-        "Das Bis-Datum darf höchstens 30 Tage zurückliegen und wurde angepasst."
-      );
-      toDate.value = formatDateForInput(toValue);
-    }
-
-    if (fromValue && toValue && toValue < fromValue) {
-      toValue = new Date(fromValue);
-      warnings.push("Das Bis-Datum wurde auf das Von-Datum gesetzt.");
-      toDate.value = formatDateForInput(toValue);
-    }
+    const fromValue = normalizeDateValue(formData.get("fromDate"));
+    const toValue = normalizeDateValue(formData.get("toDate"));
 
     const values = {
       mode: formData.get("mode") || "everything",
@@ -722,6 +774,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "Noch keine Anfrage gesendet. Prüfe deine Angaben und starte die Suche."
     );
     pageSizeValue.textContent = pageSizeInput.value;
+    applyDateBoundaries();
     toggleModeFields(getCurrentMode());
     moveToStep(0);
     renderArticles([], { initial: true, page: 1 });
@@ -733,6 +786,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Initial state
+  applyDateBoundaries();
   toggleModeFields(document.querySelector("input[name='mode']:checked").value);
   pageSizeValue.textContent = pageSizeInput.value;
   renderArticles([], { initial: true, page: 1 });
@@ -741,4 +795,16 @@ document.addEventListener("DOMContentLoaded", () => {
     `${API_ENDPOINTS[getCurrentMode()] || API_ENDPOINTS.everything}?apiKey=${API_KEY}`
   );
   updateStepUI();
+  initializeTheme();
+
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener(
+    "change",
+    (event) => {
+      const storedTheme = localStorage.getItem("newsTheme");
+      if (storedTheme) return;
+      applyTheme(event.matches ? "dark" : "light");
+    }
+  );
+
+  themeToggle.addEventListener("click", toggleTheme);
 });

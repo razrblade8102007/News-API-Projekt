@@ -14,19 +14,44 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
+    <link rel="icon" type="image/svg+xml" href="assets/newsapi-logo.svg" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <main class="container py-5">
-      <header class="text-center mb-4">
-        <p class="text-uppercase text-primary fw-semibold mb-1">
-          News API Formular
-        </p>
-        <h1 class="h3">Kuratierte Suche nach Top-Headlines oder Artikeln</h1>
-        <p class="text-muted mb-0">
-          Führe die Eingaben Schritt für Schritt durch, prüfe sie live und starte
-          anschließend deine Suche.
-        </p>
+      <header
+        class="page-hero glass-panel d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3 p-4 rounded-4"
+      >
+        <div
+          class="hero-brand d-flex align-items-center justify-content-center justify-content-md-start gap-3 text-center text-md-start"
+        >
+          <img
+            src="assets/newsapi-logo.svg"
+            alt="News API Logo"
+            class="hero-brand__logo"
+            width="88"
+            height="88"
+          />
+          <div>
+            <p class="text-uppercase text-primary fw-semibold mb-1">
+              News API Formular
+            </p>
+            <h1 class="h3 mb-2">Kuratierte Suche nach Top-Headlines oder Artikeln</h1>
+            <p class="text-muted mb-0">
+              Führe die Eingaben Schritt für Schritt durch, prüfe sie live und starte
+              anschließend deine Suche.
+            </p>
+          </div>
+        </div>
+        <button
+          class="btn btn-outline-secondary theme-toggle align-self-center"
+          id="themeToggle"
+          type="button"
+          aria-pressed="false"
+          aria-label="Darstellung umschalten"
+        >
+          <i class="bi bi-moon-stars-fill" aria-hidden="true"></i>
+        </button>
       </header>
 
       <section class="card shadow-sm border-0 mb-4">
@@ -53,6 +78,19 @@
               data-step="1"
               aria-label="Grunddaten eingeben"
             >
+              <div class="form-step__intro">
+                <div class="form-step__icon">
+                  <i class="bi bi-sliders" aria-hidden="true"></i>
+                </div>
+                <div>
+                  <p class="form-step__eyebrow text-muted mb-1">Schritt 1</p>
+                  <h2 class="form-step__title h5 mb-1">Grunddaten</h2>
+                  <p class="form-step__lead text-muted mb-0">
+                    Definiere den Modus, deinen Suchbegriff und optional eine Quelle für die
+                    Abfrage.
+                  </p>
+                </div>
+              </div>
               <div class="row g-3">
                 <div class="col-12">
                   <label class="form-label fw-semibold" for="modeTop">
@@ -154,19 +192,65 @@
                     aria-describedby="sourceHint sourceError"
                   >
                     <option value="">Keine Auswahl</option>
-                    <optgroup label="USA">
-                      <option value="cnn">CNN</option>
-                      <option value="abc-news">ABC News</option>
-                      <option value="cnbc">CNBC</option>
-                      <option value="the-washington-post">The Washington Post</option>
-                      <option value="the-verge">The Verge</option>
-                      <option value="techcrunch">TechCrunch</option>
-                    </optgroup>
-                    <optgroup label="Deutschland">
+                    <optgroup label="🇩🇪 Deutsch">
+                      <option value="spiegel-online">Spiegel Online</option>
+                      <option value="die-zeit">Die Zeit</option>
                       <option value="bild">BILD</option>
-                      <option value="die-zeit">DIE ZEIT</option>
-                      <option value="spiegel-online">SPIEGEL Online</option>
+                      <option value="focus">Focus</option>
                       <option value="der-tagesspiegel">Der Tagesspiegel</option>
+                      <option value="handelsblatt">Handelsblatt</option>
+                      <option value="wirtschafts-woche">WirtschaftsWoche</option>
+                      <option value="t3n">t3n</option>
+                      <option value="wired-de">Wired.de</option>
+                      <option value="gruenderszene">Gründerszene</option>
+                    </optgroup>
+                    <optgroup label="🇬🇧 Englisch">
+                      <option value="bbc-news">BBC News</option>
+                      <option value="cnn">CNN</option>
+                      <option value="the-guardian-uk">The Guardian</option>
+                      <option value="the-new-york-times">The New York Times</option>
+                      <option value="reuters">Reuters</option>
+                      <option value="the-washington-post">The Washington Post</option>
+                      <option value="bloomberg">Bloomberg</option>
+                      <option value="associated-press">Associated Press</option>
+                      <option value="the-wall-street-journal">The Wall Street Journal</option>
+                      <option value="usa-today">USA Today</option>
+                    </optgroup>
+                    <optgroup label="🇫🇷 Französisch">
+                      <option value="le-monde">Le Monde</option>
+                      <option value="liberation">Libération</option>
+                      <option value="les-echos">Les Échos</option>
+                      <option value="lequipe">L'Équipe</option>
+                      <option value="france24">France 24</option>
+                      <option value="le-figaro">Le Figaro</option>
+                      <option value="google-news-fr">Google News (France)</option>
+                      <option value="rfi">RFI</option>
+                      <option value="courrier-international">Courrier International</option>
+                      <option value="20-minutes">20 Minutes</option>
+                    </optgroup>
+                    <optgroup label="🇮🇹 Italienisch">
+                      <option value="la-repubblica">La Repubblica</option>
+                      <option value="il-sole-24-ore">Il Sole 24 Ore</option>
+                      <option value="ansa">ANSA.it</option>
+                      <option value="corriere-della-sera">Corriere della Sera</option>
+                      <option value="la-stampa">La Stampa</option>
+                      <option value="google-news-it">Google News (Italy)</option>
+                      <option value="football-italia">Football Italia</option>
+                      <option value="rai-news">Rai News</option>
+                      <option value="tgcom24">TGCOM24</option>
+                      <option value="il-fatto-quotidiano">Il Fatto Quotidiano</option>
+                    </optgroup>
+                    <optgroup label="🇪🇸 Spanisch">
+                      <option value="el-mundo">El Mundo</option>
+                      <option value="marca">Marca</option>
+                      <option value="la-nacion">La Nación</option>
+                      <option value="infobae">Infobae</option>
+                      <option value="cnn-es">CNN Español</option>
+                      <option value="la-gaceta">La Gaceta</option>
+                      <option value="el-pais">El País</option>
+                      <option value="google-news-ar">Google News (Argentina)</option>
+                      <option value="clarin">Clarín</option>
+                      <option value="abc-news-es">ABC España</option>
                     </optgroup>
                   </select>
                   <div id="sourceHint" class="form-text">
@@ -182,6 +266,18 @@
 
             <!-- Step 2 -->
             <section class="form-step" data-step="2" aria-label="Filter einstellen">
+              <div class="form-step__intro">
+                <div class="form-step__icon">
+                  <i class="bi bi-funnel" aria-hidden="true"></i>
+                </div>
+                <div>
+                  <p class="form-step__eyebrow text-muted mb-1">Schritt 2</p>
+                  <h2 class="form-step__title h5 mb-1">Filter verfeinern</h2>
+                  <p class="form-step__lead text-muted mb-0">
+                    Eingrenzen nach Land, Sprache, Zeitraum oder Sortierung – je nach Modus werden Felder automatisch aktiviert.
+                  </p>
+                </div>
+              </div>
               <div class="row g-3">
                 <div class="col-md-4" id="countryGroup">
                   <label for="country" class="form-label fw-semibold">Land</label>
@@ -270,7 +366,7 @@
 
                 <div class="col-12">
                   <div id="dateHint" class="form-text">
-                    Datumsfilter stehen nur im Everything-Modus zur Verfügung. Format: JJJJ-MM-TT, Bis-Datum darf nicht vor dem Von-Datum liegen.
+                    Datumsfilter stehen nur im Everything-Modus zur Verfügung. Format: JJJJ-MM-TT, Das Bis-Datum darf nicht vor dem Von-Datum liegen.
                   </div>
                 </div>
               </div>
@@ -278,6 +374,18 @@
 
             <!-- Step 3 -->
             <section class="form-step" data-step="3" aria-label="Ausgabeoptionen">
+              <div class="form-step__intro">
+                <div class="form-step__icon">
+                  <i class="bi bi-display" aria-hidden="true"></i>
+                </div>
+                <div>
+                  <p class="form-step__eyebrow text-muted mb-1">Schritt 3</p>
+                  <h2 class="form-step__title h5 mb-1">Ausgabe festlegen</h2>
+                  <p class="form-step__lead text-muted mb-0">
+                    Bestimme wie viele Ergebnisse pro Seite angezeigt werden und auf welcher Seite du einsteigen möchtest.
+                  </p>
+                </div>
+              </div>
               <div class="row g-3">
                 <div class="col-md-6">
                   <label for="pageSize" class="form-label fw-semibold">
@@ -335,7 +443,7 @@
               </div>
             </section>
 
-            <div class="d-flex justify-content-between align-items-center pt-4">
+            <div class="form-navigation d-flex justify-content-between align-items-center">
               <button
                 type="button"
                 class="btn btn-outline-secondary"
@@ -346,7 +454,7 @@
                 Zurück
               </button>
               <div class="d-flex gap-2">
-                <button type="reset" class="btn btn-light" id="resetFilters">
+                <button type="reset" class="btn btn-outline-secondary" id="resetFilters">
                   Filter zurücksetzen
                 </button>
                 <button type="button" class="btn btn-primary" id="nextStep">
@@ -370,7 +478,7 @@
               <p class="text-uppercase text-primary fw-semibold mb-1">Ausgabe</p>
               <h2 class="h5 mb-0">Gefundene Artikel</h2>
             </div>
-            <span class="badge text-bg-light" id="resultsCount">Seite 1 · 0 Artikel</span>
+            <span class="badge-soft" id="resultsCount">Seite 1 · 0 Artikel</span>
           </div>
 
           <div id="loadingState" class="alert alert-secondary d-none" role="status">
@@ -392,7 +500,7 @@
                 <p class="text-uppercase text-primary fw-semibold mb-1">
                   Letzter Request
                 </p>
-                <p class="text-muted mb-0 small">
+                <p class="request-preview__meta mb-0">
                   Vollständige GET-URL inkl. Query-Parametern (API-Key wird aus Sicherheitsgründen nur zu Debugzwecken angezeigt).
                 </p>
               </div>
