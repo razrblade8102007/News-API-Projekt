@@ -30,7 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.getElementById("themeToggle");
   const sourceConstraint = document.getElementById("sourceConstraint");
   const countryHint = document.getElementById("countryHint");
-  const modeRadios = document.querySelectorAll("input[name='mode']");
   const fromDate = document.getElementById("fromDate");
   const toDate = document.getElementById("toDate");
 
@@ -95,9 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
-  const getCurrentMode = () =>
-    document.querySelector("input[name='mode']:checked")?.value ||
-    "everything";
+  const getCurrentMode = () => "everything";
 
   const applyTheme = (theme) => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -700,12 +697,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  modeRadios.forEach((radio) => {
-    radio.addEventListener("change", (event) => {
-      toggleModeFields(event.target.value);
-    });
-  });
-
   form.addEventListener("input", (event) => {
     const target = event.target;
     if (validators[target.id]) {
@@ -787,7 +778,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initial state
   applyDateBoundaries();
-  toggleModeFields(document.querySelector("input[name='mode']:checked").value);
+  toggleModeFields(getCurrentMode());
   pageSizeValue.textContent = pageSizeInput.value;
   renderArticles([], { initial: true, page: 1 });
   updateResultCount(0, 0, 1, Number(pageSizeInput.value));

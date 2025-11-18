@@ -19,39 +19,43 @@
   </head>
   <body>
     <main class="container py-5">
-      <header
-        class="page-hero glass-panel d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3 p-4 rounded-4"
-      >
+      <header class="page-hero card glass-panel border-0 rounded-4 shadow-sm mb-4 p-4">
         <div
-          class="hero-brand d-flex align-items-center justify-content-center justify-content-md-start gap-3 text-center text-md-start"
+          class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3"
         >
-          <img
-            src="assets/newsapi-logo.svg"
-            alt="News API Logo"
-            class="hero-brand__logo"
-            width="88"
-            height="88"
-          />
           <div>
-            <p class="text-uppercase text-primary fw-semibold mb-1">
-              News API Formular
-            </p>
-            <h1 class="h3 mb-2">Kuratierte Suche nach Top-Headlines oder Artikeln</h1>
-            <p class="text-muted mb-0">
-              Führe die Eingaben Schritt für Schritt durch, prüfe sie live und starte
-              anschließend deine Suche.
+            <div class="hero-brand d-flex align-items-center gap-2 mb-3">
+              <img
+                src="assets/newsapi-logo.svg"
+                alt="News API Logo"
+                class="hero-brand__logo"
+                width="60"
+                height="60"
+              />
+              <div>
+                <p class="hero-brand__eyebrow text-uppercase mb-0">
+                  News API Studio
+                </p>
+              </div>
+            </div>
+            <h1 class="page-hero__title h3 mb-2">
+              Suche alle Nachrichten
+            </h1>
+            <p class="page-hero__lead text-muted mb-0">
+              Drei kompakte Schritte, klare Rückmeldungen und moderne Controls – so
+              stellst du nur die Filter ein, die wirklich zählen.
             </p>
           </div>
+          <button
+            class="btn btn-outline-secondary theme-toggle align-self-center"
+            id="themeToggle"
+            type="button"
+            aria-pressed="false"
+            aria-label="Darstellung umschalten"
+          >
+            <i class="bi bi-moon-stars-fill" aria-hidden="true"></i>
+          </button>
         </div>
-        <button
-          class="btn btn-outline-secondary theme-toggle align-self-center"
-          id="themeToggle"
-          type="button"
-          aria-pressed="false"
-          aria-label="Darstellung umschalten"
-        >
-          <i class="bi bi-moon-stars-fill" aria-hidden="true"></i>
-        </button>
       </header>
 
       <section class="card shadow-sm border-0 mb-4">
@@ -78,58 +82,14 @@
               data-step="1"
               aria-label="Grunddaten eingeben"
             >
-              <div class="form-step__intro">
-                <div class="form-step__icon">
-                  <i class="bi bi-sliders" aria-hidden="true"></i>
-                </div>
-                <div>
-                  <p class="form-step__eyebrow text-muted mb-1">Schritt 1</p>
-                  <h2 class="form-step__title h5 mb-1">Grunddaten</h2>
-                  <p class="form-step__lead text-muted mb-0">
-                    Definiere den Modus, deinen Suchbegriff und optional eine Quelle für die
-                    Abfrage.
-                  </p>
-                </div>
-              </div>
               <div class="row g-3">
                 <div class="col-12">
-                  <label class="form-label fw-semibold" for="modeTop">
-                    Modus wählen
-                  </label>
-                  <div
-                    class="btn-group w-100"
-                    role="group"
-                    aria-label="Modus auswählen"
-                  >
-                    <input
-                      type="radio"
-                      class="btn-check"
-                      name="mode"
-                      id="modeTop"
-                      value="top-headlines"
-                    />
-                    <label class="btn btn-outline-primary" for="modeTop">
-                      <i class="bi bi-lightning-charge me-1"></i>Top Headlines
-                    </label>
-
-                    <input
-                      type="radio"
-                      class="btn-check"
-                      name="mode"
-                      id="modeEverything"
-                      value="everything"
-                      checked
-                    />
-                    <label class="btn btn-outline-primary" for="modeEverything">
-                      <i class="bi bi-infinity me-1"></i>Everything
-                    </label>
-                  </div>
-                  <div class="form-text">
-                    Headlines liefern kuratierte Nachrichten, Everything durchsucht
-                    das komplette Archiv.
+                  <input type="hidden" name="mode" value="everything" />
+                  <div class="alert alert-info d-flex align-items-center gap-2 mb-0">
+                    <i class="bi bi-infinity"></i>
+                    <span>Alle Abfragen laufen im Everything-Modus.</span>
                   </div>
                 </div>
-
                 <div class="col-12">
                   <label for="searchTerm" class="form-label fw-semibold">
                     Suchbegriff
@@ -149,7 +109,7 @@
                     />
                   </div>
                   <div id="searchTermHint" class="form-text">
-                    Mindestens 2 Zeichen, Buchstaben/Zahlen erlaubt (z. B. "KI").
+                    Mindestens 2 Zeichen (z. B. KI).
                   </div>
                   <div id="searchTermError" class="invalid-feedback" aria-live="polite">
                     Bitte einen gültigen Suchbegriff eingeben.
@@ -175,9 +135,7 @@
                     <option value="sports">Sport</option>
                     <option value="technology">Technologie</option>
                   </select>
-                  <div id="categoryHint" class="form-text">
-                    Kategorien stehen nur für Top Headlines zur Verfügung.
-                  </div>
+                  <div id="categoryHint" class="form-text">Nur für Top Headlines.</div>
                   <div id="categoryError" class="invalid-feedback"></div>
                 </div>
 
@@ -254,10 +212,10 @@
                     </optgroup>
                   </select>
                   <div id="sourceHint" class="form-text">
-                    Wähle eine der unterstützen NewsAPI-Quellen. Im Top-Headlines-Modus deaktiviert eine gewählte Quelle Land und Kategorie.
+                    Optionale Quelle. Bei Top Headlines deaktiviert sie Land & Kategorie.
                   </div>
                   <div id="sourceConstraint" class="form-text text-danger d-none">
-                    Quelle aktiv: Land und Kategorie sind für Top Headlines deaktiviert.
+                    Quelle aktiv: Land & Kategorie deaktiviert.
                   </div>
                   <div id="sourceError" class="invalid-feedback"></div>
                 </div>
@@ -266,18 +224,6 @@
 
             <!-- Step 2 -->
             <section class="form-step" data-step="2" aria-label="Filter einstellen">
-              <div class="form-step__intro">
-                <div class="form-step__icon">
-                  <i class="bi bi-funnel" aria-hidden="true"></i>
-                </div>
-                <div>
-                  <p class="form-step__eyebrow text-muted mb-1">Schritt 2</p>
-                  <h2 class="form-step__title h5 mb-1">Filter verfeinern</h2>
-                  <p class="form-step__lead text-muted mb-0">
-                    Eingrenzen nach Land, Sprache, Zeitraum oder Sortierung – je nach Modus werden Felder automatisch aktiviert.
-                  </p>
-                </div>
-              </div>
               <div class="row g-3">
                 <div class="col-md-4" id="countryGroup">
                   <label for="country" class="form-label fw-semibold">Land</label>
@@ -295,9 +241,7 @@
                     <option value="it">Italien</option>
                     <option value="ch">Schweiz</option>
                   </select>
-                  <div id="countryHint" class="form-text">
-                    Länderauswahl ist nur mit Kategorien kombinierbar.
-                  </div>
+                  <div id="countryHint" class="form-text">Nur für Top Headlines.</div>
                   <div id="countryError" class="invalid-feedback"></div>
                 </div>
 
@@ -317,9 +261,7 @@
                     <option value="it">Italienisch</option>
                     <option value="es">Spanisch</option>
                   </select>
-                  <div id="languageHint" class="form-text">
-                    Sprachfilter ist nur im Everything-Modus aktiv.
-                  </div>
+                  <div id="languageHint" class="form-text">Nur im Everything-Modus.</div>
                 </div>
 
                 <div class="col-md-4" id="sortGroup">
@@ -331,9 +273,7 @@
                     <option value="relevancy">Relevanz</option>
                     <option value="popularity">Beliebtheit</option>
                   </select>
-                  <div id="sortHint" class="form-text">
-                    Sortierung steht ausschließlich im Everything-Modus zur Verfügung.
-                  </div>
+                  <div id="sortHint" class="form-text">Nur im Everything-Modus.</div>
                 </div>
 
                 <div class="col-md-6">
@@ -366,7 +306,7 @@
 
                 <div class="col-12">
                   <div id="dateHint" class="form-text">
-                    Datumsfilter stehen nur im Everything-Modus zur Verfügung. Format: JJJJ-MM-TT, Das Bis-Datum darf nicht vor dem Von-Datum liegen.
+                    Everything-Modus · Bis-Datum muss nach dem Von-Datum liegen.
                   </div>
                 </div>
               </div>
@@ -374,18 +314,6 @@
 
             <!-- Step 3 -->
             <section class="form-step" data-step="3" aria-label="Ausgabeoptionen">
-              <div class="form-step__intro">
-                <div class="form-step__icon">
-                  <i class="bi bi-display" aria-hidden="true"></i>
-                </div>
-                <div>
-                  <p class="form-step__eyebrow text-muted mb-1">Schritt 3</p>
-                  <h2 class="form-step__title h5 mb-1">Ausgabe festlegen</h2>
-                  <p class="form-step__lead text-muted mb-0">
-                    Bestimme wie viele Ergebnisse pro Seite angezeigt werden und auf welcher Seite du einsteigen möchtest.
-                  </p>
-                </div>
-              </div>
               <div class="row g-3">
                 <div class="col-md-6">
                   <label for="pageSize" class="form-label fw-semibold">
@@ -408,24 +336,7 @@
                   </div>
                 </div>
 
-                <div class="col-md-6">
-                  <label for="page" class="form-label fw-semibold">Seite</label>
-                  <input
-                    type="number"
-                    id="page"
-                    name="page"
-                    class="form-control"
-                    min="1"
-                    max="100"
-                    value="1"
-                    aria-describedby="pageHint pageError"
-                    required
-                  />
-                  <div id="pageHint" class="form-text">
-                    Seitenzahlen zwischen 1 und 100 sind erlaubt.
-                  </div>
-                  <div id="pageError" class="invalid-feedback"></div>
-                </div>
+                <input type="hidden" id="page" name="page" value="1" />
 
                 <div class="col-12">
                   <div
@@ -435,9 +346,7 @@
                     id="formStatus"
                   >
                     <i class="bi bi-info-circle-fill"></i>
-                    <span>
-                      Noch keine Anfrage gesendet. Prüfe deine Angaben und starte die Suche.
-                    </span>
+                    <span>Keine Anfrage aktiv. Prüfe kurz und starte die Suche.</span>
                   </div>
                 </div>
               </div>
@@ -475,7 +384,7 @@
         <div class="card-body p-4">
           <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
-              <p class="text-uppercase text-primary fw-semibold mb-1">Ausgabe</p>
+              <p class="text-uppercase text-primary fw-semibold mb-1">Trefferliste</p>
               <h2 class="h5 mb-0">Gefundene Artikel</h2>
             </div>
             <span class="badge-soft" id="resultsCount">Seite 1 · 0 Artikel</span>
@@ -501,7 +410,7 @@
                   Letzter Request
                 </p>
                 <p class="request-preview__meta mb-0">
-                  Vollständige GET-URL inkl. Query-Parametern (API-Key wird aus Sicherheitsgründen nur zu Debugzwecken angezeigt).
+                  Vollständige GET-URL inklusive Query-Parametern.
                 </p>
               </div>
             </div>
