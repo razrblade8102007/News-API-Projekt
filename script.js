@@ -380,15 +380,82 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  const truncateText = (text, maxLength = 140) => {
+    if (!text) return "";
+    return text.length > maxLength ? `${text.slice(0, maxLength).trim()}...` : text;
+  };
+
   const placeholderImage =
     "data:image/svg+xml;charset=UTF-8," +
     encodeURIComponent(
       `<svg xmlns="http://www.w3.org/2000/svg" width="320" height="240" viewBox="0 0 320 240" fill="none"><rect width="320" height="240" fill="#E8ECF4"/><path d="M40 180L120 100L180 160L240 120L280 160V200H40V180Z" fill="#C9D6EB"/><circle cx="90" cy="80" r="25" fill="#C9D6EB"/><text x="160" y="130" font-family="Arial, sans-serif" font-size="24" fill="#94A3B8" text-anchor="middle">News</text></svg>`
     );
 
-  const createArticleElement = (article) => {
-    const wrapper = document.createElement("article");
-    wrapper.className = "news-card";
+  const createArticleElement = (article, index, parentId) => {
+    const sourceName = article.source?.name || "Unbekannte Quelle";
+    const author = article.author ? ` · ${article.author}` : "";
+    const metaText = `${sourceName}${author} · ${formatDateTime(
+      article.publishedAt
+    )}`;
+
+    const item = document.createElement("div");
+    item.className = "accordion-item news-accordion__item";
+
+    const headerId = `articleHeading${index}`;
+    const collapseId = `articleCollapse${index}`;
+
+    const header = document.createElement("h3");
+    header.className = "accordion-header";
+    header.id = headerId;
+
+    const toggleBtn = document.createElement("button");
+    toggleBtn.className = "accordion-button collapsed news-accordion__button";
+    toggleBtn.type = "button";
+    toggleBtn.setAttribute("data-bs-toggle", "collapse");
+    toggleBtn.setAttribute("data-bs-target", `#${collapseId}`);
+    toggleBtn.setAttribute("aria-expanded", "false");
+    toggleBtn.setAttribute("aria-controls", collapseId);
+
+    const headerContent = document.createElement("div");
+    headerContent.className = "news-accordion__header";
+
+    const topLine = document.createElement("div");
+    topLine.className = "news-accordion__topline";
+
+    const title = document.createElement("span");
+    title.className = "news-accordion__title";
+    title.textContent = article.title || "Ohne Titel";
+
+    const meta = document.createElement("span");
+    meta.className = "news-accordion__meta";
+    meta.textContent = metaText;
+
+    topLine.append(title, meta);
+
+    const summary = document.createElement("span");
+    summary.className = "news-accordion__summary";
+    summary.textContent =
+      truncateText(article.description, 140) ||
+      "Keine Kurzbeschreibung verfügbar. Details anzeigen.";
+
+    headerContent.append(topLine, summary);
+    toggleBtn.append(headerContent);
+    header.append(toggleBtn);
+
+    const collapse = document.createElement("div");
+    collapse.id = collapseId;
+    collapse.className = "accordion-collapse collapse";
+    collapse.setAttribute("aria-labelledby", headerId);
+    collapse.setAttribute("data-bs-parent", `#${parentId}`);
+
+    const collapseBody = document.createElement("div");
+    collapseBody.className = "accordion-body";
+
+    const card = document.createElement("article");
+    card.className = "news-card";
+
+    const mediaWrapper = document.createElement("div");
+    mediaWrapper.className = "news-card__media";
 
     const img = document.createElement("img");
     img.className = "news-card__image";
@@ -398,39 +465,56 @@ document.addEventListener("DOMContentLoaded", () => {
     img.onerror = () => {
       img.src = placeholderImage;
     };
+    mediaWrapper.append(img);
 
     const body = document.createElement("div");
     body.className = "news-card__body";
 
-    const title = document.createElement("h3");
-    title.textContent = article.title || "Ohne Titel";
+    const detailTitle = document.createElement("h3");
+    detailTitle.textContent = article.title || "Ohne Titel";
 
-    const meta = document.createElement("p");
-    meta.className = "news-card__meta";
-    const sourceName = article.source?.name || "Unbekannte Quelle";
-    const author = article.author ? ` · ${article.author}` : "";
-    meta.textContent = `${sourceName}${author} · ${formatDateTime(
-      article.publishedAt
-    )}`;
+    const detailMeta = document.createElement("p");
+    detailMeta.className = "news-card__meta";
+    detailMeta.textContent = metaText;
 
     const description = document.createElement("p");
     description.className = "news-card__description";
     description.textContent =
       article.description || "Keine Beschreibung verfügbar.";
 
+    body.append(detailTitle, detailMeta, description);
+
+    if (article.content) {
+      const contentParagraph = document.createElement("p");
+      contentParagraph.className = "news-card__content";
+      contentParagraph.textContent = article.content;
+      body.append(contentParagraph);
+    }
+
     const actions = document.createElement("div");
     actions.className = "news-card__actions";
+
     const link = document.createElement("a");
-    link.href = article.url;
     link.target = "_blank";
     link.rel = "noopener noreferrer";
     link.className = "btn btn-sm btn-outline-primary";
     link.textContent = "Zum Artikel";
 
+    if (article.url) {
+      link.href = article.url;
+    } else {
+      link.href = "#";
+      link.setAttribute("aria-disabled", "true");
+      link.classList.add("disabled");
+    }
+
     actions.appendChild(link);
-    body.append(title, meta, description, actions);
-    wrapper.append(img, body);
-    return wrapper;
+    body.append(actions);
+    card.append(mediaWrapper, body);
+    collapseBody.append(card);
+    collapse.append(collapseBody);
+    item.append(header, collapse);
+    return item;
   };
 
   const renderArticles = (articles = [], meta = {}) => {
@@ -452,9 +536,17 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    const accordionId = "articlesAccordion";
+    const accordion = document.createElement("div");
+    accordion.className = "accordion news-accordion";
+    accordion.id = accordionId;
+
     const fragment = document.createDocumentFragment();
-    articles.forEach((article) => fragment.appendChild(createArticleElement(article)));
-    resultsContainer.appendChild(fragment);
+    articles.forEach((article, index) =>
+      fragment.appendChild(createArticleElement(article, index, accordionId))
+    );
+    accordion.appendChild(fragment);
+    resultsContainer.appendChild(accordion);
   };
 
   const updateResultCount = (
