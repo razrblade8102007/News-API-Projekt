@@ -1,37 +1,65 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("newsForm");
-  const formSteps = Array.from(document.querySelectorAll(".form-step"));
-  const indicators = Array.from(
-    document.querySelectorAll(".step-indicator__item")
-  );
-  const prevBtn = document.getElementById("prevStep");
-  const nextBtn = document.getElementById("nextStep");
-  const submitBtn = document.getElementById("submitForm");
-  const resetBtn = document.getElementById("resetFilters");
-  const statusAlert = document.getElementById("formStatus");
-  const pageSizeInput = document.getElementById("pageSize");
-  const pageSizeValue = document.getElementById("pageSizeValue");
-  const resultsContainer = document.getElementById("resultsContainer");
-  const resultsCount = document.getElementById("resultsCount");
-  const loadingState = document.getElementById("loadingState");
-  const requestPreview = document.getElementById("requestPreview");
-
-  const categoryGroup = document.getElementById("categoryGroup");
-  const languageGroup = document.getElementById("languageGroup");
-  const sortGroup = document.getElementById("sortGroup");
-  const countryGroup = document.getElementById("countryGroup");
-  const countryField = document.getElementById("country");
-  const categoryField = document.getElementById("category");
-  const sourceField = document.getElementById("source");
-  const languageField = document.getElementById("language");
-  const sortField = document.getElementById("sortBy");
-  const pageInput = document.getElementById("page");
-  const dateHint = document.getElementById("dateHint");
-  const themeToggle = document.getElementById("themeToggle");
-  const sourceConstraint = document.getElementById("sourceConstraint");
-  const countryHint = document.getElementById("countryHint");
-  const fromDate = document.getElementById("fromDate");
-  const toDate = document.getElementById("toDate");
+  const $ = (id) => document.getElementById(id);
+  const $$ = (selector) => Array.from(document.querySelectorAll(selector));
+  const form = $("newsForm");
+  const formSteps = $$(".form-step");
+  const indicators = $$(".step-indicator__item");
+  const [
+    prevBtn,
+    nextBtn,
+    submitBtn,
+    resetBtn,
+    statusAlert,
+    pageSizeInput,
+    pageSizeValue,
+    resultsContainer,
+    resultsCount,
+    loadingState,
+    requestPreview,
+    pageInput,
+    dateHint,
+    themeToggle,
+    sourceConstraint,
+    countryHint,
+    fromDate,
+    toDate,
+  ] = [
+    "prevStep",
+    "nextStep",
+    "submitForm",
+    "resetFilters",
+    "formStatus",
+    "pageSize",
+    "pageSizeValue",
+    "resultsContainer",
+    "resultsCount",
+    "loadingState",
+    "requestPreview",
+    "page",
+    "dateHint",
+    "themeToggle",
+    "sourceConstraint",
+    "countryHint",
+    "fromDate",
+    "toDate",
+  ].map($);
+  const [categoryGroup, languageGroup, sortGroup, countryGroup] = [
+    "categoryGroup",
+    "languageGroup",
+    "sortGroup",
+    "countryGroup",
+  ].map($);
+  const [countryField, categoryField, sourceField, languageField, sortField] = [
+    "country",
+    "category",
+    "source",
+    "language",
+    "sortBy",
+  ].map($);
+  const requestPreviewCollapse = $("requestPreviewCollapse");
+  const requestPreviewToggle = document.querySelector(".request-preview__toggle");
+  const requestPreviewToggleLabel =
+    requestPreviewToggle?.querySelector("span") || null;
 
   let currentStep = 0;
   const dateFields = [fromDate, toDate];
@@ -72,17 +100,15 @@ document.addEventListener("DOMContentLoaded", () => {
       ? new Intl.DateTimeFormat("de-CH", { dateStyle: "medium" }).format(date)
       : "";
 
-  const getLatestDate = () => {
-    const date = new Date();
+  const zeroHour = (date) => {
     date.setHours(0, 0, 0, 0);
     return date;
   };
-
+  const getLatestDate = () => zeroHour(new Date());
   const getEarliestDate = () => {
     const date = new Date();
     date.setDate(date.getDate() - 30);
-    date.setHours(0, 0, 0, 0);
-    return date;
+    return zeroHour(date);
   };
 
   const applyDateBoundaries = () => {
@@ -225,21 +251,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const updateFeedback = (field, message = "") => {
     const isInvalid = Boolean(message);
+    field.classList.toggle("is-invalid", isInvalid);
+    field.classList.toggle("is-valid", !isInvalid && Boolean(field.value));
     const errorElement = document.getElementById(`${field.id}Error`);
-
-    if (isInvalid) {
-      field.classList.add("is-invalid");
-      field.classList.remove("is-valid");
-      if (errorElement) errorElement.textContent = message;
-    } else {
-      field.classList.remove("is-invalid");
-      if (field.value) {
-        field.classList.add("is-valid");
-      } else {
-        field.classList.remove("is-valid");
-      }
-      if (errorElement) errorElement.textContent = "";
-    }
+    if (errorElement) errorElement.textContent = message;
   };
 
   const validateSearchTerm = () => {
@@ -259,12 +274,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const validateSource = () => {
     const field = document.getElementById("source");
-    if (field.disabled) {
-      updateFeedback(field, "");
-      field.setCustomValidity("");
-      return true;
-    }
-
     field.setCustomValidity("");
     updateFeedback(field, "");
     return true;
@@ -348,19 +357,12 @@ document.addEventListener("DOMContentLoaded", () => {
     return true;
   };
 
-  const validateStep = (stepIndex) => {
-    const stepFields = formSteps[stepIndex].querySelectorAll(
-      "input:not([type='radio']):not(:disabled), select:not(:disabled), textarea:not(:disabled)"
-    );
-    let isStepValid = true;
-
-    stepFields.forEach((field) => {
-      const isValid = validateField(field);
-      if (!isValid) isStepValid = false;
-    });
-
-    return isStepValid;
-  };
+  const validateStep = (stepIndex) =>
+    Array.from(
+      formSteps[stepIndex].querySelectorAll(
+        "input:not([type='radio']):not(:disabled), select:not(:disabled), textarea:not(:disabled)"
+      )
+    ).reduce((isValid, field) => validateField(field) && isValid, true);
 
   const moveToStep = (targetStep) => {
     if (targetStep < 0 || targetStep >= formSteps.length) return;
@@ -471,7 +473,19 @@ document.addEventListener("DOMContentLoaded", () => {
     body.className = "news-card__body";
 
     const detailTitle = document.createElement("h3");
-    detailTitle.textContent = article.title || "Ohne Titel";
+    const detailTitleLink = document.createElement("a");
+    detailTitleLink.className = "news-card__title-link";
+    detailTitleLink.textContent = article.title || "Ohne Titel";
+    if (article.url) {
+      detailTitleLink.href = article.url;
+      detailTitleLink.target = "_blank";
+      detailTitleLink.rel = "noopener noreferrer";
+    } else {
+      detailTitleLink.href = "#";
+      detailTitleLink.setAttribute("aria-disabled", "true");
+      detailTitleLink.tabIndex = -1;
+    }
+    detailTitle.append(detailTitleLink);
 
     const detailMeta = document.createElement("p");
     detailMeta.className = "news-card__meta";
@@ -890,4 +904,13 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 
   themeToggle.addEventListener("click", toggleTheme);
+
+  if (requestPreviewCollapse && requestPreviewToggle && requestPreviewToggleLabel) {
+    requestPreviewCollapse.addEventListener("show.bs.collapse", () => {
+      requestPreviewToggleLabel.textContent = "verbergen";
+    });
+    requestPreviewCollapse.addEventListener("hide.bs.collapse", () => {
+      requestPreviewToggleLabel.textContent = "anzeigen";
+    });
+  }
 });

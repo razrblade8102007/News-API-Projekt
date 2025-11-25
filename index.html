@@ -42,8 +42,7 @@
               Suche alle Nachrichten
             </h1>
             <p class="page-hero__lead text-muted mb-0">
-              Drei kompakte Schritte, klare Rückmeldungen und moderne Controls – so
-              stellst du nur die Filter ein, die wirklich zählen.
+              Alle Abfragen laufen im Everything-Modus.
             </p>
           </div>
           <button
@@ -82,14 +81,8 @@
               data-step="1"
               aria-label="Grunddaten eingeben"
             >
+              <input type="hidden" name="mode" value="everything" />
               <div class="row g-3">
-                <div class="col-12">
-                  <input type="hidden" name="mode" value="everything" />
-                  <div class="alert alert-info d-flex align-items-center gap-2 mb-0">
-                    <i class="bi bi-infinity"></i>
-                    <span>Alle Abfragen laufen im Everything-Modus.</span>
-                  </div>
-                </div>
                 <div class="col-12">
                   <label for="searchTerm" class="form-label fw-semibold">
                     Suchbegriff
@@ -151,52 +144,31 @@
                   >
                     <option value="">Keine Auswahl</option>
                     <optgroup label="🇩🇪 Deutsch">
-                      <option value="spiegel-online">Spiegel Online</option>
                       <option value="die-zeit">Die Zeit</option>
                       <option value="bild">BILD</option>
-                      <option value="focus">Focus</option>
                       <option value="der-tagesspiegel">Der Tagesspiegel</option>
-                      <option value="handelsblatt">Handelsblatt</option>
-                      <option value="wirtschafts-woche">WirtschaftsWoche</option>
-                      <option value="t3n">t3n</option>
-                      <option value="wired-de">Wired.de</option>
-                      <option value="gruenderszene">Gründerszene</option>
                     </optgroup>
                     <optgroup label="🇬🇧 Englisch">
                       <option value="bbc-news">BBC News</option>
                       <option value="cnn">CNN</option>
-                      <option value="the-guardian-uk">The Guardian</option>
-                      <option value="the-new-york-times">The New York Times</option>
-                      <option value="reuters">Reuters</option>
                       <option value="the-washington-post">The Washington Post</option>
                       <option value="bloomberg">Bloomberg</option>
                       <option value="associated-press">Associated Press</option>
                       <option value="the-wall-street-journal">The Wall Street Journal</option>
                       <option value="usa-today">USA Today</option>
+                      <option value="reuters">Reuters</option>
                     </optgroup>
                     <optgroup label="🇫🇷 Französisch">
                       <option value="le-monde">Le Monde</option>
                       <option value="liberation">Libération</option>
                       <option value="les-echos">Les Échos</option>
                       <option value="lequipe">L'Équipe</option>
-                      <option value="france24">France 24</option>
-                      <option value="le-figaro">Le Figaro</option>
-                      <option value="google-news-fr">Google News (France)</option>
-                      <option value="rfi">RFI</option>
-                      <option value="courrier-international">Courrier International</option>
-                      <option value="20-minutes">20 Minutes</option>
                     </optgroup>
                     <optgroup label="🇮🇹 Italienisch">
                       <option value="la-repubblica">La Repubblica</option>
                       <option value="il-sole-24-ore">Il Sole 24 Ore</option>
                       <option value="ansa">ANSA.it</option>
-                      <option value="corriere-della-sera">Corriere della Sera</option>
-                      <option value="la-stampa">La Stampa</option>
-                      <option value="google-news-it">Google News (Italy)</option>
                       <option value="football-italia">Football Italia</option>
-                      <option value="rai-news">Rai News</option>
-                      <option value="tgcom24">TGCOM24</option>
-                      <option value="il-fatto-quotidiano">Il Fatto Quotidiano</option>
                     </optgroup>
                     <optgroup label="🇪🇸 Spanisch">
                       <option value="el-mundo">El Mundo</option>
@@ -205,15 +177,9 @@
                       <option value="infobae">Infobae</option>
                       <option value="cnn-es">CNN Español</option>
                       <option value="la-gaceta">La Gaceta</option>
-                      <option value="el-pais">El País</option>
-                      <option value="google-news-ar">Google News (Argentina)</option>
-                      <option value="clarin">Clarín</option>
-                      <option value="abc-news-es">ABC España</option>
                     </optgroup>
                   </select>
-                  <div id="sourceHint" class="form-text">
-                    Optionale Quelle. Bei Top Headlines deaktiviert sie Land & Kategorie.
-                  </div>
+                  <div id="sourceHint" class="form-text"></div>
                   <div id="sourceConstraint" class="form-text text-danger d-none">
                     Quelle aktiv: Land & Kategorie deaktiviert.
                   </div>
@@ -413,10 +379,23 @@
                   Vollständige GET-URL inklusive Query-Parametern.
                 </p>
               </div>
+              <button
+                class="request-preview__toggle d-inline-flex align-items-center gap-2"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#requestPreviewCollapse"
+                aria-expanded="false"
+                aria-controls="requestPreviewCollapse"
+              >
+                <span>anzeigen</span>
+                <i class="bi bi-chevron-down" aria-hidden="true"></i>
+              </button>
             </div>
-            <pre class="request-preview__code" id="requestPreview">
+            <div class="collapse" id="requestPreviewCollapse">
+              <pre class="request-preview__code" id="requestPreview">
 GET https://newsapi.org/v2/everything
-            </pre>
+              </pre>
+            </div>
           </div>
         </div>
       </section>
