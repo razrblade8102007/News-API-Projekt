@@ -1,3 +1,84 @@
+const isThirdPartyControlError = (message = "", source = "", stack = "") => {
+  const msg = String(message || "").toLowerCase();
+  const src = String(source || "").toLowerCase();
+  const stk = String(stack || "").toLowerCase();
+  const mentionsControl =
+    msg.includes("reading 'control'") || msg.includes('reading "control"');
+  const mentionsContentScript =
+    src.includes("content_script.js") || stk.includes("content_script.js");
+  return mentionsControl && mentionsContentScript;
+};
+
+// Block known noisy extension errors early (e.g., password/AI helpers) while keeping real errors visible.
+// Legacy handlers as a fallback for environments that ignore addEventListener prevention.
+window.onerror = (message, source, _lineno, _colno, error) => {
+  if (
+    isThirdPartyControlError(
+      String(message || ""),
+      String(source || ""),
+      error && error.stack
+    )
+  ) {
+    return true;
+  }
+  return undefined;
+};
+
+window.onunhandledrejection = (event) => {
+  const msg =
+    (event && event.reason && event.reason.message) ||
+    (event && typeof event.reason === "string" ? event.reason : "") ||
+    "";
+  const src =
+    (event && event.reason && (event.reason.stack || event.reason.fileName)) ||
+    "";
+  if (isThirdPartyControlError(msg, src, event && event.reason && event.reason.stack)) {
+    return true;
+  }
+  return undefined;
+};
+
+window.addEventListener(
+  "error",
+  (event) => {
+    const msg = event.message || (event.error && event.error.message) || "";
+    const src =
+      event.filename ||
+      (event.error && (event.error.stack || event.error.fileName)) ||
+      "";
+    const stack = (event.error && event.error.stack) || "";
+
+    if (isThirdPartyControlError(msg, src, stack)) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      event.stopPropagation();
+    }
+  },
+  true
+);
+
+window.addEventListener(
+  "unhandledrejection",
+  (event) => {
+    const msg =
+      (event.reason && event.reason.message) ||
+      (typeof event.reason === "string" ? event.reason : "") ||
+      "";
+    const src =
+      (event.reason && (event.reason.stack || event.reason.fileName)) ||
+      event.filename ||
+      "";
+    const stack = (event.reason && event.reason.stack) || "";
+
+    if (isThirdPartyControlError(msg, src, stack)) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      event.stopPropagation();
+    }
+  },
+  true
+);
+
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("newsForm");
   const formSteps = Array.from(document.querySelectorAll(".form-step"));
@@ -55,6 +136,15 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   let statusNudgeTimeout = null;
+  const updatePageSizeVisual = () => {
+    if (!pageSizeInput || !pageSizeValue) return;
+    const min = Number(pageSizeInput.min) || 0;
+    const max = Number(pageSizeInput.max) || 100;
+    const value = Number(pageSizeInput.value) || min;
+    const percent = ((value - min) * 100) / Math.max(max - min, 1);
+    pageSizeValue.textContent = value;
+    pageSizeInput.style.setProperty("--range-progress", `${percent}%`);
+  };
 
   const restartAnimation = (element, className) => {
     if (!element) return;
@@ -239,6 +329,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const updateFeedback = (field, message = "") => {
     const isInvalid = Boolean(message);
     const errorElement = document.getElementById(`${field.id}Error`);
+    const shouldStayValidWhenEmpty = field.id === "language";
 
     if (isInvalid) {
       field.classList.add("is-invalid");
@@ -246,7 +337,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (errorElement) errorElement.textContent = message;
     } else {
       field.classList.remove("is-invalid");
-      if (field.value) {
+      if (field.value || shouldStayValidWhenEmpty) {
         field.classList.add("is-valid");
       } else {
         field.classList.remove("is-valid");
@@ -302,10 +393,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const toValue = toDate.value;
     let fromMessage = "";
     let toMessage = "";
+    const isFromRequired = fromDate.required && !fromDate.disabled;
+    const isToRequired = toDate.required && !toDate.disabled;
     const earliest = getEarliestDate();
     const latest = getLatestDate();
     const earliestLabel = formatDateForLabel(earliest);
     const latestLabel = formatDateForLabel(latest);
+
+    if (!fromValue && isFromRequired) {
+      fromMessage = "Bitte ein Von-Datum wählen.";
+    }
+
+    if (!toValue && isToRequired) {
+      toMessage = "Bitte ein Bis-Datum wählen.";
+    }
 
     if (fromValue) {
       const fromDateObj = new Date(fromValue);
@@ -629,7 +730,7 @@ document.addEventListener("DOMContentLoaded", () => {
         "Die Anzahl Ergebnisse wurde auf den erlaubten Bereich (5-100) angepasst."
       );
       pageSizeInput.value = pageSize;
-      pageSizeValue.textContent = pageSize;
+      updatePageSizeVisual();
     }
 
     const rawPage = Number(formData.get("page"));
@@ -726,6 +827,61 @@ document.addEventListener("DOMContentLoaded", () => {
     Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]')).forEach(
       (triggerEl) => bootstrap.Tooltip.getOrCreateInstance(triggerEl)
     );
+  };
+
+  const setupInfoButtons = () => {
+    const wrappers = Array.from(document.querySelectorAll(".label-with-info"));
+    let openState = null;
+
+    const closeBubble = (bubble, button) => {
+      if (!bubble || !button) return;
+      bubble.classList.remove("is-open");
+      bubble.setAttribute("aria-hidden", "true");
+      button.setAttribute("aria-expanded", "false");
+      if (openState && openState.bubble === bubble) {
+        openState = null;
+      }
+    };
+
+    wrappers.forEach((wrapper) => {
+      const button = wrapper.querySelector(".info-button");
+      const bubble = wrapper.querySelector(".info-bubble");
+      if (!button || !bubble) return;
+
+      bubble.setAttribute("aria-hidden", "true");
+
+      button.addEventListener("click", (event) => {
+        event.stopPropagation();
+        const isOpen = bubble.classList.contains("is-open");
+
+        if (openState && openState.bubble !== bubble) {
+          closeBubble(openState.bubble, openState.button);
+        }
+
+        if (isOpen) {
+          closeBubble(bubble, button);
+        } else {
+          bubble.classList.add("is-open");
+          bubble.setAttribute("aria-hidden", "false");
+          button.setAttribute("aria-expanded", "true");
+          openState = { bubble, button };
+        }
+      });
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!openState) return;
+      const wrapper = openState.bubble.closest(".label-with-info");
+      if (wrapper && wrapper.contains(event.target)) return;
+      closeBubble(openState.bubble, openState.button);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && openState) {
+        closeBubble(openState.bubble, openState.button);
+        openState.button?.focus();
+      }
+    });
   };
 
   const fetchNews = async () => {
@@ -851,7 +1007,7 @@ document.addEventListener("DOMContentLoaded", () => {
       validators[target.id]();
     }
     if (target === pageSizeInput) {
-      pageSizeValue.textContent = target.value;
+      updatePageSizeVisual();
     }
   });
 
@@ -913,6 +1069,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "Noch keine Anfrage gesendet. Prüfe deine Angaben und starte die Suche."
     );
     pageSizeValue.textContent = pageSizeInput.value;
+    updatePageSizeVisual();
     applyDateBoundaries();
     toggleModeFields(getCurrentMode());
     moveToStep(0);
@@ -927,13 +1084,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initial state
   applyDateBoundaries();
   toggleModeFields(getCurrentMode());
-  pageSizeValue.textContent = pageSizeInput.value;
+  updatePageSizeVisual();
   renderArticles([], { initial: true, page: 1 });
   updateResultCount(0, 0, 1, Number(pageSizeInput.value));
   updateRequestPreview(
     `${API_ENDPOINTS[getCurrentMode()] || API_ENDPOINTS.everything}?apiKey=${API_KEY}`
   );
   updateStepUI();
+  setupInfoButtons();
   initializeTooltips();
 
   if (requestPreviewCollapse && requestPreviewToggle && requestPreviewToggleLabel) {
