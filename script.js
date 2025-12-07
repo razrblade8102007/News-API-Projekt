@@ -134,6 +134,8 @@ document.addEventListener("DOMContentLoaded", () => {
     success: "alert-success",
     error: "alert-danger",
   };
+  let activeRequestId = 0;
+  let activeController = null;
 
   let statusNudgeTimeout = null;
   const updatePageSizeVisual = () => {
@@ -885,6 +887,14 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const fetchNews = async () => {
+    if (activeController) {
+      activeController.abort();
+    }
+    activeRequestId += 1;
+    const requestId = activeRequestId;
+    const controller = new AbortController();
+    activeController = controller;
+
     const { values, warnings: formWarnings } = collectFormValues();
     let modeToUse = values.mode || "everything";
     let attempt = 0;
@@ -916,7 +926,7 @@ document.addEventListener("DOMContentLoaded", () => {
             : "News werden geladen …"
         );
 
-        const response = await fetch(url);
+        const response = await fetch(url, { signal: controller.signal });
         const payload = await response.json().catch(() => ({}));
 
         if (!response.ok || payload.status !== "ok") {
@@ -946,16 +956,12 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
       }
 
-      updateResultCount(
-        articles.length,
-        totalResults,
-        values.page,
-        values.pageSize
-      );
-      renderArticles(articles, {
-        ...values,
-        requestMode: lastModeUsed,
-      });
+      if (requestId !== activeRequestId) {
+        return;
+      }
+
+      updateResultCount(articles.length, totalResults, values.page, values.pageSize);
+      renderArticles(articles, { ...values, requestMode: lastModeUsed });
 
       if (articles.length) {
         const parts = [
@@ -989,6 +995,10 @@ document.addEventListener("DOMContentLoaded", () => {
         );
       }
     } catch (error) {
+      if (controller.signal.aborted || requestId !== activeRequestId) {
+        return;
+      }
+
       renderArticles([], values);
       updateResultCount(0, 0, values.page, values.pageSize);
       setStatus(
@@ -997,7 +1007,9 @@ document.addEventListener("DOMContentLoaded", () => {
           "Unbekannter Fehler bei der Anfrage. Bitte später erneut versuchen."
       );
     } finally {
-      setLoading(false);
+      if (requestId === activeRequestId) {
+        setLoading(false);
+      }
     }
   };
 

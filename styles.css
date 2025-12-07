@@ -1067,4 +1067,13 @@ main {
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
+
+  .card,
+  .glass-panel,
+  .hero-brand,
+  .hero-brand__logo {
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 }
