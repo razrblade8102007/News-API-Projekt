@@ -1,65 +1,40 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const $ = (id) => document.getElementById(id);
-  const $$ = (selector) => Array.from(document.querySelectorAll(selector));
-  const form = $("newsForm");
-  const formSteps = $$(".form-step");
-  const indicators = $$(".step-indicator__item");
-  const [
-    prevBtn,
-    nextBtn,
-    submitBtn,
-    resetBtn,
-    statusAlert,
-    pageSizeInput,
-    pageSizeValue,
-    resultsContainer,
-    resultsCount,
-    loadingState,
-    requestPreview,
-    pageInput,
-    dateHint,
-    themeToggle,
-    sourceConstraint,
-    countryHint,
-    fromDate,
-    toDate,
-  ] = [
-    "prevStep",
-    "nextStep",
-    "submitForm",
-    "resetFilters",
-    "formStatus",
-    "pageSize",
-    "pageSizeValue",
-    "resultsContainer",
-    "resultsCount",
-    "loadingState",
-    "requestPreview",
-    "page",
-    "dateHint",
-    "themeToggle",
-    "sourceConstraint",
-    "countryHint",
-    "fromDate",
-    "toDate",
-  ].map($);
-  const [categoryGroup, languageGroup, sortGroup, countryGroup] = [
-    "categoryGroup",
-    "languageGroup",
-    "sortGroup",
-    "countryGroup",
-  ].map($);
-  const [countryField, categoryField, sourceField, languageField, sortField] = [
-    "country",
-    "category",
-    "source",
-    "language",
-    "sortBy",
-  ].map($);
-  const requestPreviewCollapse = $("requestPreviewCollapse");
+  const form = document.getElementById("newsForm");
+  const formSteps = Array.from(document.querySelectorAll(".form-step"));
+  const indicators = Array.from(
+    document.querySelectorAll(".step-indicator__item")
+  );
+  const prevBtn = document.getElementById("prevStep");
+  const nextBtn = document.getElementById("nextStep");
+  const submitBtn = document.getElementById("submitForm");
+  const resetBtn = document.getElementById("resetFilters");
+  const statusAlert = document.getElementById("formStatus");
+  const pageSizeInput = document.getElementById("pageSize");
+  const pageSizeValue = document.getElementById("pageSizeValue");
+  const resultsContainer = document.getElementById("resultsContainer");
+  const resultsCount = document.getElementById("resultsCount");
+  const loadingState = document.getElementById("loadingState");
+  const requestPreview = document.getElementById("requestPreview");
+  const requestPreviewCollapse = document.getElementById("requestPreviewCollapse");
   const requestPreviewToggle = document.querySelector(".request-preview__toggle");
   const requestPreviewToggleLabel =
     requestPreviewToggle?.querySelector("span") || null;
+
+  const categoryGroup = document.getElementById("categoryGroup");
+  const languageGroup = document.getElementById("languageGroup");
+  const sortGroup = document.getElementById("sortGroup");
+  const countryGroup = document.getElementById("countryGroup");
+  const countryField = document.getElementById("country");
+  const categoryField = document.getElementById("category");
+  const sourceField = document.getElementById("source");
+  const languageField = document.getElementById("language");
+  const sortField = document.getElementById("sortBy");
+  const pageInput = document.getElementById("page");
+  const dateHint = document.getElementById("dateHint");
+  const sourceConstraint = document.getElementById("sourceConstraint");
+  const countryHint = document.getElementById("countryHint");
+  const fromDate = document.getElementById("fromDate");
+  const toDate = document.getElementById("toDate");
 
   let currentStep = 0;
   const dateFields = [fromDate, toDate];
@@ -77,6 +52,31 @@ document.addEventListener("DOMContentLoaded", () => {
     info: "alert-info",
     success: "alert-success",
     error: "alert-danger",
+  };
+
+  let statusNudgeTimeout = null;
+
+  const restartAnimation = (element, className) => {
+    if (!element) return;
+    element.classList.remove(className);
+    void element.offsetWidth;
+    element.classList.add(className);
+  };
+
+  const applyStaggeredAnimation = (elements, className = "is-animating", delayStep = 60) => {
+    if (!elements?.length) return;
+    elements.forEach((el, index) => {
+      el.style.setProperty("--stagger-delay", `${index * delayStep}ms`);
+      restartAnimation(el, className);
+      el.addEventListener(
+        "animationend",
+        () => {
+          el.classList.remove(className);
+          el.style.removeProperty("--stagger-delay");
+        },
+        { once: true }
+      );
+    });
   };
 
   const clampNumber = (value, min, max, fallback) => {
@@ -100,15 +100,17 @@ document.addEventListener("DOMContentLoaded", () => {
       ? new Intl.DateTimeFormat("de-CH", { dateStyle: "medium" }).format(date)
       : "";
 
-  const zeroHour = (date) => {
+  const getLatestDate = () => {
+    const date = new Date();
     date.setHours(0, 0, 0, 0);
     return date;
   };
-  const getLatestDate = () => zeroHour(new Date());
+
   const getEarliestDate = () => {
     const date = new Date();
     date.setDate(date.getDate() - 30);
-    return zeroHour(date);
+    date.setHours(0, 0, 0, 0);
+    return date;
   };
 
   const applyDateBoundaries = () => {
@@ -121,32 +123,6 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const getCurrentMode = () => "everything";
-
-  const applyTheme = (theme) => {
-    document.documentElement.setAttribute("data-theme", theme);
-    const isDark = theme === "dark";
-    themeToggle.setAttribute("aria-pressed", String(isDark));
-    themeToggle.innerHTML = isDark
-      ? '<i class="bi bi-sun-fill" aria-hidden="true"></i>'
-      : '<i class="bi bi-moon-stars-fill" aria-hidden="true"></i>';
-  };
-
-  const detectSystemTheme = () =>
-    window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-
-  const initializeTheme = () => {
-    const storedTheme = localStorage.getItem("newsTheme");
-    const theme = storedTheme || detectSystemTheme();
-    applyTheme(theme);
-  };
-
-  const toggleTheme = () => {
-    const currentTheme =
-      document.documentElement.getAttribute("data-theme") || "light";
-    const nextTheme = currentTheme === "light" ? "dark" : "light";
-    localStorage.setItem("newsTheme", nextTheme);
-    applyTheme(nextTheme);
-  };
 
   const toggleVisibility = (group, show) => {
     group.classList.toggle("visually-hidden", !show);
@@ -227,7 +203,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     indicators.forEach((indicator, index) => {
+      const isCurrent = index === currentStep;
       indicator.classList.toggle("active", index <= currentStep);
+      indicator.classList.toggle("is-current", isCurrent);
+      if (isCurrent) {
+        restartAnimation(indicator, "is-current");
+      }
     });
 
     prevBtn.disabled = currentStep === 0;
@@ -239,6 +220,12 @@ document.addEventListener("DOMContentLoaded", () => {
     statusAlert.classList.remove(...Object.values(STATUS_CLASS));
     statusAlert.classList.add(STATUS_CLASS[variant] || STATUS_CLASS.info);
     statusAlert.querySelector("span").textContent = message;
+    restartAnimation(statusAlert, "is-active");
+    if (statusNudgeTimeout) clearTimeout(statusNudgeTimeout);
+    statusNudgeTimeout = window.setTimeout(
+      () => statusAlert.classList.remove("is-active"),
+      420
+    );
   };
 
   const setLoading = (isLoading) => {
@@ -251,10 +238,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const updateFeedback = (field, message = "") => {
     const isInvalid = Boolean(message);
-    field.classList.toggle("is-invalid", isInvalid);
-    field.classList.toggle("is-valid", !isInvalid && Boolean(field.value));
     const errorElement = document.getElementById(`${field.id}Error`);
-    if (errorElement) errorElement.textContent = message;
+
+    if (isInvalid) {
+      field.classList.add("is-invalid");
+      field.classList.remove("is-valid");
+      if (errorElement) errorElement.textContent = message;
+    } else {
+      field.classList.remove("is-invalid");
+      if (field.value) {
+        field.classList.add("is-valid");
+      } else {
+        field.classList.remove("is-valid");
+      }
+      if (errorElement) errorElement.textContent = "";
+    }
   };
 
   const validateSearchTerm = () => {
@@ -274,6 +272,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const validateSource = () => {
     const field = document.getElementById("source");
+    if (field.disabled) {
+      updateFeedback(field, "");
+      field.setCustomValidity("");
+      return true;
+    }
+
     field.setCustomValidity("");
     updateFeedback(field, "");
     return true;
@@ -357,12 +361,19 @@ document.addEventListener("DOMContentLoaded", () => {
     return true;
   };
 
-  const validateStep = (stepIndex) =>
-    Array.from(
-      formSteps[stepIndex].querySelectorAll(
-        "input:not([type='radio']):not(:disabled), select:not(:disabled), textarea:not(:disabled)"
-      )
-    ).reduce((isValid, field) => validateField(field) && isValid, true);
+  const validateStep = (stepIndex) => {
+    const stepFields = formSteps[stepIndex].querySelectorAll(
+      "input:not([type='radio']):not(:disabled), select:not(:disabled), textarea:not(:disabled)"
+    );
+    let isStepValid = true;
+
+    stepFields.forEach((field) => {
+      const isValid = validateField(field);
+      if (!isValid) isStepValid = false;
+    });
+
+    return isStepValid;
+  };
 
   const moveToStep = (targetStep) => {
     if (targetStep < 0 || targetStep >= formSteps.length) return;
@@ -528,6 +539,13 @@ document.addEventListener("DOMContentLoaded", () => {
     collapseBody.append(card);
     collapse.append(collapseBody);
     item.append(header, collapse);
+
+    collapse.addEventListener("show.bs.collapse", () => {
+      item.classList.add("is-open");
+    });
+    collapse.addEventListener("hide.bs.collapse", () => {
+      item.classList.remove("is-open");
+    });
     return item;
   };
 
@@ -561,6 +579,21 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     accordion.appendChild(fragment);
     resultsContainer.appendChild(accordion);
+
+    const accordionItems = Array.from(
+      accordion.querySelectorAll(".news-accordion__item")
+    );
+    const cards = Array.from(accordion.querySelectorAll(".news-card"));
+    applyStaggeredAnimation(accordionItems, "is-animating", 70);
+    applyStaggeredAnimation(cards, "is-animating", 70);
+    if (window.bootstrap) {
+      accordionItems.forEach((item) => {
+        const collapseEl = item.querySelector(".accordion-collapse");
+        if (collapseEl) {
+          bootstrap.Collapse.getOrCreateInstance(collapseEl, { toggle: false });
+        }
+      });
+    }
   };
 
   const updateResultCount = (
@@ -569,6 +602,7 @@ document.addEventListener("DOMContentLoaded", () => {
     page = 1,
     limit = 0
   ) => {
+    if (!resultsCount) return;
     const safeDisplayed = Number.isFinite(displayedCount)
       ? displayedCount
       : 0;
@@ -684,6 +718,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const updateRequestPreview = (url) => {
     requestPreview.textContent = `GET ${url}`;
+    restartAnimation(requestPreview, "is-highlighted");
+  };
+
+  const initializeTooltips = () => {
+    if (!window.bootstrap) return;
+    Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]')).forEach(
+      (triggerEl) => bootstrap.Tooltip.getOrCreateInstance(triggerEl)
+    );
   };
 
   const fetchNews = async () => {
@@ -892,18 +934,7 @@ document.addEventListener("DOMContentLoaded", () => {
     `${API_ENDPOINTS[getCurrentMode()] || API_ENDPOINTS.everything}?apiKey=${API_KEY}`
   );
   updateStepUI();
-  initializeTheme();
-
-  window.matchMedia("(prefers-color-scheme: dark)").addEventListener(
-    "change",
-    (event) => {
-      const storedTheme = localStorage.getItem("newsTheme");
-      if (storedTheme) return;
-      applyTheme(event.matches ? "dark" : "light");
-    }
-  );
-
-  themeToggle.addEventListener("click", toggleTheme);
+  initializeTooltips();
 
   if (requestPreviewCollapse && requestPreviewToggle && requestPreviewToggleLabel) {
     requestPreviewCollapse.addEventListener("show.bs.collapse", () => {
@@ -911,6 +942,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     requestPreviewCollapse.addEventListener("hide.bs.collapse", () => {
       requestPreviewToggleLabel.textContent = "anzeigen";
+    });
+    requestPreviewCollapse.addEventListener("shown.bs.collapse", () => {
+      restartAnimation(requestPreview, "is-highlighted");
     });
   }
 });

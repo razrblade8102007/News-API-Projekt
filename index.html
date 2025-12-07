@@ -45,15 +45,6 @@
               Alle Abfragen laufen im Everything-Modus.
             </p>
           </div>
-          <button
-            class="btn btn-outline-secondary theme-toggle align-self-center"
-            id="themeToggle"
-            type="button"
-            aria-pressed="false"
-            aria-label="Darstellung umschalten"
-          >
-            <i class="bi bi-moon-stars-fill" aria-hidden="true"></i>
-          </button>
         </div>
       </header>
 
@@ -353,7 +344,6 @@
               <p class="text-uppercase text-primary fw-semibold mb-1">Trefferliste</p>
               <h2 class="h5 mb-0">Gefundene Artikel</h2>
             </div>
-            <span class="badge-soft" id="resultsCount">Seite 1 · 0 Artikel</span>
           </div>
 
           <div id="loadingState" class="alert alert-secondary d-none" role="status">
@@ -384,6 +374,7 @@
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#requestPreviewCollapse"
+                title="Letzte Anfrage ein- oder ausblenden"
                 aria-expanded="false"
                 aria-controls="requestPreviewCollapse"
               >
