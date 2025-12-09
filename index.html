@@ -86,16 +86,16 @@
 
       <section class="card shadow-sm border-0 mb-4">
         <div class="card-body p-4">
-          <div class="step-indicator mb-4" aria-label="Formularfortschritt">
-            <span class="step-indicator__item active" data-step-label="Basis">
+          <div class="step-indicator mb-4" role="list" aria-label="Formularfortschritt">
+            <span class="step-indicator__item active" role="listitem" data-step-label="Basis">
               <span class="step-indicator__circle">1</span>
               <span class="step-indicator__text">Grunddaten</span>
             </span>
-            <span class="step-indicator__item" data-step-label="Filter">
+            <span class="step-indicator__item" role="listitem" data-step-label="Filter">
               <span class="step-indicator__circle">2</span>
               <span class="step-indicator__text">Filter</span>
             </span>
-            <span class="step-indicator__item" data-step-label="Ausgabe">
+            <span class="step-indicator__item" role="listitem" data-step-label="Ausgabe">
               <span class="step-indicator__circle">3</span>
               <span class="step-indicator__text">Ausgabe</span>
             </span>
@@ -308,7 +308,8 @@
                   aria-describedby="sortHint sortByError"
                   required
                 >
-                  <option value="publishedAt">Neueste zuerst</option>
+                  <option value="" disabled hidden label="Bitte wählen"></option>
+                  <option value="publishedAt" selected>Neueste zuerst</option>
                   <option value="relevancy">Relevanz</option>
                   <option value="popularity">Beliebtheit</option>
                 </select>
