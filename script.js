@@ -78,6 +78,7 @@ window.addEventListener( // Listener für unhandledrejection-Events, um externe 
 ); // Schließt den Aufruf/Parameterblock
 // Leerzeile (Lesbarkeit)
 document.addEventListener("DOMContentLoaded", () => { // Startpunkt: erst ausführen, wenn das DOM bereit ist
+  // E1: Mehrstufiges, interaktives Formular – die folgenden Referenzen steuern Schritte, Indikatoren und Buttons, damit Nutzer geführt durch die Eingaben navigieren können.
   const form = document.getElementById("newsForm"); // Das Hauptformular für die News-Suche holen
   const formSteps = Array.from(document.querySelectorAll(".form-step")); // Alle Form-Schritte sammeln
   const indicators = Array.from( // Fortschrittsindikatoren sammeln
@@ -260,6 +261,7 @@ document.addEventListener("DOMContentLoaded", () => { // Startpunkt: erst ausfü
     } // Block/Funktionskörper schließen
   }; // Block/Funktionskörper schließen
   // Leerzeile (Lesbarkeit)
+  // E8: Interaktionen zwischen Feldern – Moduswahl, Datumsfilter und Quellen steuern sich gegenseitig, damit nur zulässige Kombinationen aktiv bleiben.
   const toggleModeFields = (modeValue) => { // Steuert sichtbare Felder je nach Modus
     const isTopHeadlines = modeValue === "top-headlines"; // Prüfen, ob Top-Headlines ausgewählt ist
     applyDateBoundaries(); // Datumsgrenzen immer aktualisieren
@@ -306,6 +308,7 @@ document.addEventListener("DOMContentLoaded", () => { // Startpunkt: erst ausfü
     submitBtn.classList.toggle("d-none", currentStep !== formSteps.length - 1); // Submit nur auf letzter Seite anzeigen
   }; // Block/Funktionskörper schließen
   // Leerzeile (Lesbarkeit)
+  // E5: UI/UX-Feedback – Statusmeldungen nutzen visuelle Variationen, Animation und kompakte Hinweise, damit Nutzer jederzeit wissen, was passiert.
   const setStatus = (variant, message) => { // Zeigt eine Statusmeldung mit entsprechender Klasse an
     statusAlert.classList.remove(...Object.values(STATUS_CLASS)); // Entfernt alle vorhandenen Status-Klassen
     statusAlert.classList.add(STATUS_CLASS[variant] || STATUS_CLASS.info); // Fügt Klasse für gewünschten Status hinzu
@@ -346,6 +349,7 @@ document.addEventListener("DOMContentLoaded", () => { // Startpunkt: erst ausfü
     } // Block/Funktionskörper schließen
   }; // Block/Funktionskörper schließen
   // Leerzeile (Lesbarkeit)
+  // E2: Validierungslogik – ab hier werden Feldregeln (Regex, Zahlenbereiche, Datumskombinationen) geprüft, um fehlerhafte Eingaben früh abzufangen.
   const validateSearchTerm = () => { // Prüft den Suchbegriff auf Mindestlänge und erlaubte Zeichen
     const field = document.getElementById("searchTerm"); // Feldreferenz holen
     const value = field.value.trim(); // Wert trimmen, um Leerzeichen zu entfernen
@@ -506,6 +510,7 @@ document.addEventListener("DOMContentLoaded", () => { // Startpunkt: erst ausfü
     ); // Schließt den Aufruf/Parameterblock
   // Leerzeile (Lesbarkeit)
   const createArticleElement = (article, index, parentId) => { // Baut ein Akkordeon-Element für einen Artikel zusammen
+    // E6: Komplexes Webkomponenten-Element – hier entsteht ein dynamisches Bootstrap-Accordion mit Karten, das Header, Collapse, Bild, Meta und Aktionen kombiniert.
     const sourceName = article.source?.name || "Unbekannte Quelle"; // Quelle ermitteln oder fallback
     const author = article.author ? ` · ${article.author}` : ""; // Autor ergänzen, falls vorhanden
     const metaText = `${sourceName}${author} · ${formatDateTime( // Strukturhilfszeile
@@ -822,6 +827,7 @@ document.addEventListener("DOMContentLoaded", () => { // Startpunkt: erst ausfü
     restartAnimation(requestPreview, "is-highlighted"); // Animation zur Hervorhebung triggern
   }; // Block/Funktionskörper schließen
   // Leerzeile (Lesbarkeit)
+  // E7: Bewusster Einsatz der CSS-/UI-Bibliothek – Bootstrap-Tooltips ergänzen das eigene Styling, werden aber nur initialisiert, wenn die Bibliothek tatsächlich geladen ist.
   const initializeTooltips = () => { // Aktiviert Bootstrap-Tooltips, falls Bibliothek vorhanden
     if (!window.bootstrap) return; // Ohne Bootstrap nichts tun
     Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]')).forEach( // Strukturhilfszeile
@@ -830,6 +836,7 @@ document.addEventListener("DOMContentLoaded", () => { // Startpunkt: erst ausfü
   }; // Block/Funktionskörper schließen
   // Leerzeile (Lesbarkeit)
   const setupInfoButtons = () => { // Steuert die kleinen Info-Bubbles neben Labels
+    // E8: Fein abgestimmte Interaktionen – Info-Bubbles schließen sich bei Außenklick und ESC, halten genau eine Instanz offen und pflegen ARIA-Attribute für Zugänglichkeit.
     const wrappers = Array.from(document.querySelectorAll(".label-with-info")); // Alle Wrapper mit Info-Button sammeln
     let openState = null; // Merkt sich aktuell geöffnetes Bubble-Element
     // Leerzeile (Lesbarkeit)
@@ -884,6 +891,7 @@ document.addEventListener("DOMContentLoaded", () => { // Startpunkt: erst ausfü
     }); // Block/Funktionskörper schließen
   }; // Block/Funktionskörper schließen
   // Leerzeile (Lesbarkeit)
+  // E3/E4/E9: Hier fließen Formulardaten in einen HTTP-Request (fetch) zur News-API, die JSON-Antwort wird validiert/aufbereitet und laufende Requests per AbortController abgebrochen, um Performance, Stabilität und Nutzerfeedback (Loader/Status) zu sichern.
   const fetchNews = async () => { // Kernfunktion: baut Request, ruft API auf und rendert Ergebnisse
     if (activeController) { // Falls noch ein Request läuft
       activeController.abort(); // Abbrechen, um nur die aktuelle Anfrage zu behalten
