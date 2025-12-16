@@ -1,44 +1,44 @@
-<!DOCTYPE html>
-<html lang="de">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>News API Abfrage – Suche nach aktuellen Nachrichten</title>
+<!DOCTYPE html> <!-- HTML5 Dokumenttyp -->
+<html lang="de"> <!-- Sprache der Seite ist Deutsch -->
+  <head> <!-- Kopfbereich mit Meta-Infos und Ressourcen -->
+    <meta charset="UTF-8" /> <!-- Zeichensatz UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- Responsive Skalierung -->
+    <title>News API Abfrage – Suche nach aktuellen Nachrichten</title> <!-- Seitentitel -->
     <meta
       name="description"
       content="Starte präzise News-API-Abfragen: Filter nach Sprache, Land, Kategorie, Quelle, Datum und Sortierung. Sofortige Ergebnisvorschau mit GET-URL."
-    />
-    <meta name="robots" content="index,follow" />
-    <link rel="canonical" href="https://example.com/news-api-projekt" />
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="News API Abfrage – Suche nach aktuellen Nachrichten" />
+    /> <!-- SEO-Beschreibung -->
+    <meta name="robots" content="index,follow" /> <!-- Suchmaschinen dürfen indexieren -->
+    <link rel="canonical" href="https://example.com/news-api-projekt" /> <!-- Canonical URL -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin /> <!-- Verbindungsaufbau zu CDN -->
+    <meta property="og:type" content="website" /> <!-- Open Graph Typ -->
+    <meta property="og:title" content="News API Abfrage – Suche nach aktuellen Nachrichten" /> <!-- OG Titel -->
     <meta
       property="og:description"
       content="News-Suche mit der News API: Filter nach Quelle, Sprache, Land, Kategorie und Datum. Vorschau der vollständigen GET-URL inklusive Query-Parametern."
-    />
-    <meta property="og:url" content="https://example.com/news-api-projekt" />
-    <meta property="og:image" content="https://example.com/assets/newsapi-logo.svg" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="News API Abfrage – Suche nach aktuellen Nachrichten" />
+    /> <!-- OG Beschreibung -->
+    <meta property="og:url" content="https://example.com/news-api-projekt" /> <!-- OG URL -->
+    <meta property="og:image" content="https://example.com/assets/newsapi-logo.svg" /> <!-- OG Bild -->
+    <meta name="twitter:card" content="summary_large_image" /> <!-- Twitter Kartenformat -->
+    <meta name="twitter:title" content="News API Abfrage – Suche nach aktuellen Nachrichten" /> <!-- Twitter Titel -->
     <meta
       name="twitter:description"
       content="Erstelle schnell News-API-Abfragen mit Filtern für Sprache, Land, Quelle, Kategorie, Datum und Sortierung."
-    />
-    <meta name="twitter:image" content="https://example.com/assets/newsapi-logo.svg" />
+    /> <!-- Twitter Beschreibung -->
+    <meta name="twitter:image" content="https://example.com/assets/newsapi-logo.svg" /> <!-- Twitter Bild -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
-    />
+    /> <!-- Bootstrap CSS von CDN -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-    />
-    <link rel="icon" type="image/svg+xml" href="assets/newsapi-logo.svg" />
-    <link rel="stylesheet" href="styles.css" />
-    <script type="application/ld+json">
+    /> <!-- Bootstrap Icons -->
+    <link rel="icon" type="image/svg+xml" href="assets/newsapi-logo.svg" /> <!-- Favicon -->
+    <link rel="stylesheet" href="styles.css" /> <!-- Lokales CSS -->
+    <script type="application/ld+json"> <!-- Strukturierte Daten für Suchmaschinen -->
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
@@ -50,16 +50,16 @@
           "query-input": "required name=searchTerm"
         }
       }
-    </script>
+    </script> <!-- Ende JSON-LD -->
   </head>
-  <body>
-    <main class="container py-5">
-      <header class="page-hero card glass-panel border-0 rounded-4 shadow-sm mb-4 p-4">
+  <body> <!-- Seitenkörper -->
+    <main class="container py-5"> <!-- Inhalt zentriert mit Bootstrap Container -->
+      <header class="page-hero card glass-panel border-0 rounded-4 shadow-sm mb-4 p-4"> <!-- Hero-Bereich mit Branding -->
         <div
           class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3"
-        >
-          <div>
-            <div class="hero-brand d-flex align-items-center gap-2 mb-3">
+        > <!-- Flex-Layout für Titel und Info -->
+          <div> <!-- Linke Spalte mit Logo und Text -->
+            <div class="hero-brand d-flex align-items-center gap-2 mb-3"> <!-- Logo + Markenname -->
       <img
         src="assets/newsapi-logo.svg"
         alt="News API Logo"
@@ -67,54 +67,53 @@
         class="hero-brand__logo"
         width="60"
         height="60"
-      />
-      <div>
+      /> <!-- Markenlogo -->
+      <div> <!-- Text neben dem Logo -->
                 <p class="hero-brand__eyebrow text-uppercase mb-0">
                   News API Studio
-                </p>
-              </div>
-            </div>
+                </p> <!-- Kleiner Marken-Label -->
+              </div> <!-- Ende Text neben Logo -->
+            </div> <!-- Ende Markenbereich -->
             <h1 class="page-hero__title h3 mb-2">
               Suche alle Nachrichten
-            </h1>
+            </h1> <!-- Hauptüberschrift -->
             <p class="page-hero__lead mb-0">
               Stelle präzise Anfragen an die News API: Wähle Quelle, Land, Sprache, Kategorie oder Datumsbereich, sortiere nach Aktualität, Relevanz oder Popularität und sieh sofort, welche GET-URL gesendet wird.
-            </p>
-          </div>
-        </div>
-      </header>
+            </p> <!-- Kurzbeschreibung der Funktion -->
+          </div> <!-- Ende linke Spalte -->
+        </div> <!-- Ende Flex-Container im Header -->
+      </header> <!-- Ende Header -->
 
-      <section class="card shadow-sm border-0 mb-4">
-        <div class="card-body p-4">
-          <div class="step-indicator mb-4" role="list" aria-label="Formularfortschritt">
+      <section class="card shadow-sm border-0 mb-4"> <!-- Wizard-Karte für Formulareingaben -->
+        <div class="card-body p-4"> <!-- Inhalt der Karte -->
+          <div class="step-indicator mb-4" role="list" aria-label="Formularfortschritt"> <!-- Schrittanzeige -->
             <span class="step-indicator__item active" role="listitem" data-step-label="Basis">
               <span class="step-indicator__circle">1</span>
               <span class="step-indicator__text">Grunddaten</span>
-            </span>
+            </span> <!-- Schritt 1 -->
             <span class="step-indicator__item" role="listitem" data-step-label="Filter">
               <span class="step-indicator__circle">2</span>
               <span class="step-indicator__text">Filter</span>
-            </span>
+            </span> <!-- Schritt 2 -->
             <span class="step-indicator__item" role="listitem" data-step-label="Ausgabe">
               <span class="step-indicator__circle">3</span>
               <span class="step-indicator__text">Ausgabe</span>
-            </span>
-          </div>
+            </span> <!-- Schritt 3 -->
+          </div> <!-- Ende Schrittanzeige -->
 
-          <form id="newsForm" novalidate>
-            <!-- Step 1 -->
+          <form id="newsForm" novalidate> <!-- Hauptformular ohne native Validierung -->
             <section
               class="form-step active"
               data-step="1"
               aria-label="Grunddaten eingeben"
-            >
-              <input type="hidden" name="mode" value="everything" />
-              <div class="row g-3">
-                <div class="col-12">
-                  <div class="label-with-info">
+            > <!-- Schritt 1: Basis -->
+              <input type="hidden" name="mode" value="everything" /> <!-- Hidden: API-Modus Everything -->
+              <div class="row g-3"> <!-- Grid für Felder -->
+                <div class="col-12"> <!-- Volle Breite für Suchbegriff -->
+                  <div class="label-with-info"> <!-- Label mit Infobutton -->
                     <label for="searchTerm" class="form-label fw-semibold">
                       Suchbegriff
-                    </label>
+                    </label> <!-- Beschriftung -->
                     <button
                       type="button"
                       class="info-button"
@@ -123,15 +122,15 @@
                       aria-controls="info-searchTerm"
                     >
                       <i class="bi bi-info-circle"></i>
-                    </button>
+                    </button> <!-- Info-Button zeigt Tooltip -->
                     <div class="info-bubble" id="info-searchTerm" role="status">
                       Stichwort für die Suche eingeben, mindestens 2 Zeichen.
-                    </div>
-                  </div>
-                  <div class="input-group">
+                    </div> <!-- Tooltip-Text -->
+                  </div> <!-- Ende Label mit Info -->
+                  <div class="input-group"> <!-- Input mit Icon -->
                     <span class="input-group-text">
                       <i class="bi bi-search"></i>
-                    </span>
+                    </span> <!-- Lupe-Icon -->
                     <input
                       type="text"
                       id="searchTerm"
@@ -140,20 +139,20 @@
                       placeholder="Politik, KI, Nachhaltigkeit …"
                       aria-describedby="searchTermHint searchTermError"
                       required
-                    />
-                  </div>
+                    /> <!-- Texteingabe Suchbegriff -->
+                  </div> <!-- Ende Input-Gruppe -->
                   <div id="searchTermHint" class="form-text">
                     Mindestens 2 Zeichen (z. B. KI).
-                  </div>
+                  </div> <!-- Hinweistext -->
                   <div id="searchTermError" class="invalid-feedback" aria-live="polite">
                     Bitte einen gültigen Suchbegriff eingeben.
-                  </div>
-                </div>
+                  </div> <!-- Fehlermeldung -->
+                </div> <!-- Ende Suchbegriff-Spalte -->
 
-                <div class="col-md-6" id="categoryGroup">
+                <div class="col-md-6" id="categoryGroup"> <!-- Kategorie Auswahl -->
                   <label for="category" class="form-label fw-semibold">
                     Kategorie
-                  </label>
+                  </label> <!-- Label Kategorie -->
                   <select
                     id="category"
                     name="category"
@@ -168,16 +167,16 @@
                     <option value="science">Wissenschaft</option>
                     <option value="sports">Sport</option>
                     <option value="technology">Technologie</option>
-                  </select>
-                  <div id="categoryHint" class="form-text">Nur für Top Headlines.</div>
-                  <div id="categoryError" class="invalid-feedback"></div>
-                </div>
+                  </select> <!-- Dropdown Kategorie -->
+                  <div id="categoryHint" class="form-text">Nur für Top Headlines.</div> <!-- Hinweis Kategorie -->
+                  <div id="categoryError" class="invalid-feedback"></div> <!-- Fehler Kategorie -->
+                </div> <!-- Ende Kategorie -->
 
-                <div class="col-md-6" id="sourceGroup">
-                  <div class="label-with-info">
+                <div class="col-md-6" id="sourceGroup"> <!-- Quellen-Auswahl -->
+                  <div class="label-with-info"> <!-- Label mit Info -->
                     <label for="source" class="form-label fw-semibold">
                       Quelle
-                    </label>
+                    </label> <!-- Label Quelle -->
                     <button
                       type="button"
                       class="info-button"
@@ -186,11 +185,11 @@
                       aria-controls="info-source"
                     >
                       <i class="bi bi-info-circle"></i>
-                    </button>
+                    </button> <!-- Info-Button Quelle -->
                     <div class="info-bubble" id="info-source" role="status">
                       Wähle eine konkrete Nachrichtenquelle.
-                    </div>
-                  </div>
+                    </div> <!-- Tooltip Quelle -->
+                  </div> <!-- Ende Label mit Info -->
                   <select
                     id="source"
                     name="source"
@@ -215,21 +214,20 @@
                       <option value="liberation">Libération</option>
                       <option value="les-echos">Les Échos</option>
                     </optgroup>
-                  </select>
-                  <div id="sourceHint" class="form-text"></div>
+                  </select> <!-- Dropdown Quelle -->
+                  <div id="sourceHint" class="form-text"></div> <!-- Hinweis Quelle -->
                   <div id="sourceConstraint" class="form-text text-danger d-none">
                     Quelle aktiv: Land & Kategorie deaktiviert.
-                  </div>
-                  <div id="sourceError" class="invalid-feedback"></div>
-                </div>
-              </div>
-            </section>
+                  </div> <!-- Hinweis wenn Quelle aktiv -->
+                  <div id="sourceError" class="invalid-feedback"></div> <!-- Fehler Quelle -->
+                </div> <!-- Ende Quellen-Spalte -->
+              </div> <!-- Ende Row Schritt 1 -->
+            </section> <!-- Ende Schritt 1 -->
 
-            <!-- Step 2 -->
-            <section class="form-step" data-step="2" aria-label="Filter einstellen">
-              <div class="row g-3">
-                <div class="col-md-4" id="countryGroup">
-                  <label for="country" class="form-label fw-semibold">Land</label>
+            <section class="form-step" data-step="2" aria-label="Filter einstellen"> <!-- Schritt 2: Filter -->
+              <div class="row g-3"> <!-- Grid für Filter -->
+                <div class="col-md-4" id="countryGroup"> <!-- Land Auswahl -->
+                  <label for="country" class="form-label fw-semibold">Land</label> <!-- Label Land -->
                   <select
                     id="country"
                     name="country"
@@ -243,16 +241,16 @@
                     <option value="fr">Frankreich</option>
                     <option value="it">Italien</option>
                     <option value="ch">Schweiz</option>
-                  </select>
-                  <div id="countryHint" class="form-text">Nur für Top Headlines.</div>
-                  <div id="countryError" class="invalid-feedback"></div>
-                </div>
+                  </select> <!-- Dropdown Land -->
+                  <div id="countryHint" class="form-text">Nur für Top Headlines.</div> <!-- Hinweis Land -->
+                  <div id="countryError" class="invalid-feedback"></div> <!-- Fehler Land -->
+                </div> <!-- Ende Land -->
 
-                <div class="col-md-4" id="languageGroup">
-                <div class="label-with-info">
+                <div class="col-md-4" id="languageGroup"> <!-- Sprache Auswahl -->
+                <div class="label-with-info"> <!-- Label + Info -->
                   <label for="language" class="form-label fw-semibold">
                     Sprache
-                  </label>
+                  </label> <!-- Label Sprache -->
                   <button
                     type="button"
                     class="info-button"
@@ -261,11 +259,11 @@
                     aria-controls="info-language"
                   >
                     <i class="bi bi-info-circle"></i>
-                  </button>
+                  </button> <!-- Info-Button Sprache -->
                   <div class="info-bubble" id="info-language" role="status">
                     Sprache der Artikel wählen.
-                  </div>
-                </div>
+                  </div> <!-- Tooltip Sprache -->
+                </div> <!-- Ende Label + Info -->
                 <select
                   id="language"
                   name="language"
@@ -278,16 +276,16 @@
                   <option value="fr">Französisch</option>
                     <option value="it">Italienisch</option>
                   <option value="es">Spanisch</option>
-                </select>
-                <div id="languageHint" class="form-text">Nur im Everything-Modus.</div>
-                <div id="languageError" class="invalid-feedback"></div>
-              </div>
+                </select> <!-- Dropdown Sprache -->
+                <div id="languageHint" class="form-text">Nur im Everything-Modus.</div> <!-- Hinweis Sprache -->
+                <div id="languageError" class="invalid-feedback"></div> <!-- Fehler Sprache -->
+              </div> <!-- Ende Sprache-Spalte -->
 
-              <div class="col-md-4" id="sortGroup">
-                <div class="label-with-info">
+              <div class="col-md-4" id="sortGroup"> <!-- Sortierung -->
+                <div class="label-with-info"> <!-- Label + Info -->
                   <label for="sortBy" class="form-label fw-semibold">
                     Sortierung
-                  </label>
+                  </label> <!-- Label Sortierung -->
                   <button
                     type="button"
                     class="info-button"
@@ -296,11 +294,11 @@
                     aria-controls="info-sortBy"
                   >
                     <i class="bi bi-info-circle"></i>
-                  </button>
+                  </button> <!-- Info-Button Sortierung -->
                   <div class="info-bubble" id="info-sortBy" role="status">
                     Lege fest, ob nach Datum, Relevanz oder Popularität sortiert wird.
-                  </div>
-                </div>
+                  </div> <!-- Tooltip Sortierung -->
+                </div> <!-- Ende Label + Info -->
                 <select
                   id="sortBy"
                   name="sortBy"
@@ -312,15 +310,15 @@
                   <option value="publishedAt" selected>Neueste zuerst</option>
                   <option value="relevancy">Relevanz</option>
                   <option value="popularity">Beliebtheit</option>
-                </select>
-                <div id="sortHint" class="form-text">Nur im Everything-Modus.</div>
-                <div id="sortByError" class="invalid-feedback"></div>
-              </div>
+                </select> <!-- Dropdown Sortierung -->
+                <div id="sortHint" class="form-text">Nur im Everything-Modus.</div> <!-- Hinweis Sortierung -->
+                <div id="sortByError" class="invalid-feedback"></div> <!-- Fehler Sortierung -->
+              </div> <!-- Ende Sortierung -->
 
-                <div class="col-md-6">
+                <div class="col-md-6"> <!-- Von-Datum -->
                   <label for="fromDate" class="form-label fw-semibold">
                     Von-Datum
-                  </label>
+                  </label> <!-- Label Von -->
                   <input
                     type="date"
                     id="fromDate"
@@ -328,14 +326,14 @@
                     class="form-control"
                     aria-describedby="dateHint fromError"
                     required
-                  />
-                  <div id="fromError" class="invalid-feedback"></div>
-                </div>
+                  /> <!-- Datum von -->
+                  <div id="fromError" class="invalid-feedback"></div> <!-- Fehler Von -->
+                </div> <!-- Ende Von -->
 
-                <div class="col-md-6">
+                <div class="col-md-6"> <!-- Bis-Datum -->
                   <label for="toDate" class="form-label fw-semibold">
                     Bis-Datum
-                  </label>
+                  </label> <!-- Label Bis -->
                   <input
                     type="date"
                     id="toDate"
@@ -343,37 +341,36 @@
                     class="form-control"
                     aria-describedby="dateHint toError"
                     required
-                  />
-                  <div id="toError" class="invalid-feedback"></div>
-                </div>
+                  /> <!-- Datum bis -->
+                  <div id="toError" class="invalid-feedback"></div> <!-- Fehler Bis -->
+                </div> <!-- Ende Bis -->
 
-                <div class="col-12">
+                <div class="col-12"> <!-- Hinweis Datumsbereich -->
                   <div id="dateHint" class="form-text">
                     Everything-Modus · Bis-Datum muss nach dem Von-Datum liegen.
-                  </div>
-                </div>
-              </div>
-            </section>
+                  </div> <!-- Text Datumsregel -->
+                </div> <!-- Ende Hinweis -->
+              </div> <!-- Ende Row Schritt 2 -->
+            </section> <!-- Ende Schritt 2 -->
 
-            <!-- Step 3 -->
-            <section class="form-step" data-step="3" aria-label="Ausgabeoptionen">
-              <div class="row g-3">
-                <div class="col-12">
-                  <div class="range-card">
-                    <div class="range-card__head">
-                      <div>
+            <section class="form-step" data-step="3" aria-label="Ausgabeoptionen"> <!-- Schritt 3: Ausgabe -->
+              <div class="row g-3"> <!-- Grid für Ausgabe -->
+                <div class="col-12"> <!-- Slider Bereich -->
+                  <div class="range-card"> <!-- Karte mit Slider -->
+                    <div class="range-card__head"> <!-- Kopf des Sliderbereichs -->
+                      <div> <!-- Textblock -->
                         <p class="range-card__eyebrow">Ausgabe</p>
                         <p class="range-card__title h6 mb-1">Anzahl Ergebnisse</p>
                         <p class="range-card__hint mb-0">
                           Ziehe den Regler, um festzulegen, wie viele Artikel pro Seite angezeigt werden.
                         </p>
-                      </div>
+                      </div> <!-- Ende Textblock -->
                       <div class="range-card__badge" aria-live="polite">
                         <span id="pageSizeValue">20</span>
                         <small>pro Seite</small>
-                      </div>
-                    </div>
-                    <div class="range-card__control">
+                      </div> <!-- Badge zeigt aktuellen Wert -->
+                    </div> <!-- Ende Kopf -->
+                    <div class="range-card__control"> <!-- Slider Container -->
                       <input
                         type="range"
                         id="pageSize"
@@ -384,19 +381,19 @@
                         step="5"
                         value="20"
                         aria-label="Anzahl Ergebnisse pro Seite"
-                      />
+                      /> <!-- Range Input -->
                       <div class="range-card__scale">
                         <span>5</span>
                         <span>50</span>
                         <span>100</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                      </div> <!-- Skalenbeschriftung -->
+                    </div> <!-- Ende Slider Container -->
+                  </div> <!-- Ende Range Card -->
+                </div> <!-- Ende Slider Spalte -->
 
-                <input type="hidden" id="page" name="page" value="1" />
+                <input type="hidden" id="page" name="page" value="1" /> <!-- Aktuelle Seite (hidden) -->
 
-                <div class="col-12">
+                <div class="col-12"> <!-- Statushinweis -->
                   <div
                     class="alert alert-info d-flex align-items-center gap-2"
                     role="status"
@@ -405,12 +402,12 @@
                   >
                     <i class="bi bi-info-circle-fill"></i>
                     <span>Keine Anfrage aktiv. Prüfe kurz und starte die Suche.</span>
-                  </div>
-                </div>
-              </div>
-            </section>
+                  </div> <!-- Hinweisbox -->
+                </div> <!-- Ende Statushinweis -->
+              </div> <!-- Ende Row Schritt 3 -->
+            </section> <!-- Ende Schritt 3 -->
 
-            <div class="form-navigation d-flex justify-content-between align-items-center">
+            <div class="form-navigation d-flex justify-content-between align-items-center"> <!-- Navigation -->
               <button
                 type="button"
                 class="btn btn-outline-secondary"
@@ -419,57 +416,57 @@
               >
                 <i class="bi bi-arrow-left"></i>
                 Zurück
-              </button>
-              <div class="d-flex gap-2">
+              </button> <!-- Button zurück -->
+              <div class="d-flex gap-2"> <!-- Button-Gruppe rechts -->
                 <button type="reset" class="btn btn-outline-secondary" id="resetFilters">
                   Filter zurücksetzen
-                </button>
+                </button> <!-- Reset-Button -->
                 <button type="button" class="btn btn-primary" id="nextStep">
                   Weiter
                   <i class="bi bi-arrow-right"></i>
-                </button>
+                </button> <!-- Weiter-Button -->
                 <button type="submit" class="btn btn-success d-none" id="submitForm">
                   <i class="bi bi-play-fill"></i>
                   Suche starten
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </section>
+                </button> <!-- Submit-Button (nur Schritt 3 sichtbar) -->
+              </div> <!-- Ende Button-Gruppe -->
+            </div> <!-- Ende Navigation -->
+          </form> <!-- Ende Formular -->
+        </div> <!-- Ende Kartenkörper -->
+      </section> <!-- Ende Wizard-Karte -->
 
-      <section class="card shadow-sm border-0" id="resultsSection" aria-live="polite">
-        <div class="card-body p-4">
-          <div class="d-flex justify-content-between align-items-center mb-3">
-            <div>
+      <section class="card shadow-sm border-0" id="resultsSection" aria-live="polite"> <!-- Ergebnisbereich -->
+        <div class="card-body p-4"> <!-- Ergebnis-Kartenkörper -->
+          <div class="d-flex justify-content-between align-items-center mb-3"> <!-- Kopfzeile Ergebnisse -->
+            <div> <!-- Textblock -->
               <p class="text-uppercase text-primary fw-semibold mb-1">Trefferliste</p>
               <h2 class="h5 mb-0">Gefundene Artikel</h2>
-            </div>
-          </div>
+            </div> <!-- Ende Textblock -->
+          </div> <!-- Ende Kopfzeile -->
 
-          <div id="loadingState" class="alert alert-secondary d-none" role="status">
+          <div id="loadingState" class="alert alert-secondary d-none" role="status"> <!-- Ladezustand -->
             <div class="d-flex align-items-center gap-2">
               <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div>
               <span>News werden geladen …</span>
             </div>
-          </div>
+          </div> <!-- Ende Ladezustand -->
 
-          <div id="resultsContainer" class="news-list">
+          <div id="resultsContainer" class="news-list"> <!-- Container für Ergebnisliste -->
             <p class="text-muted mb-0">
               Noch keine Ergebnisse. Starte eine Suche, um Artikel anzeigen zu lassen.
-            </p>
-          </div>
+            </p> <!-- Platzhaltertext -->
+          </div> <!-- Ende Ergebniscontainer -->
 
-          <div class="request-preview mt-4">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <div>
+          <div class="request-preview mt-4"> <!-- Letzte Anfrage als Vorschau -->
+            <div class="d-flex justify-content-between align-items-center mb-2"> <!-- Kopf der Vorschau -->
+              <div> <!-- Textblock -->
                 <p class="text-uppercase text-primary fw-semibold mb-1">
                   Letzter Request
                 </p>
                 <p class="request-preview__meta mb-0">
                   Vollständige GET-URL inklusive Query-Parametern.
                 </p>
-              </div>
+              </div> <!-- Ende Textblock -->
               <button
                 class="request-preview__toggle d-inline-flex align-items-center gap-2"
                 type="button"
@@ -481,24 +478,24 @@
               >
                 <span>anzeigen</span>
                 <i class="bi bi-chevron-down" aria-hidden="true"></i>
-              </button>
-            </div>
-            <div class="collapse" id="requestPreviewCollapse">
+              </button> <!-- Toggle Button -->
+            </div> <!-- Ende Kopf Vorschau -->
+            <div class="collapse" id="requestPreviewCollapse"> <!-- Collapsible Bereich -->
               <pre class="request-preview__code" id="requestPreview">
 GET https://newsapi.org/v2/everything
-              </pre>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
+              </pre> <!-- Codeblock mit letzter URL -->
+            </div> <!-- Ende Collapse -->
+          </div> <!-- Ende Anfragevorschau -->
+        </div> <!-- Ende Ergebnis-Kartenkörper -->
+      </section> <!-- Ende Ergebniskarte -->
+    </main> <!-- Ende Hauptinhalt -->
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
       defer
-    ></script>
-    <script src="script.js" defer></script>
-  </body>
-</html>
+    ></script> <!-- Bootstrap JS Bundle -->
+    <script src="script.js" defer></script> <!-- Eigenes Skript -->
+  </body> <!-- Ende Body -->
+</html> <!-- Ende Dokument -->
