@@ -76,3 +76,8 @@ https://newsapi.org
 ## Autor:innen & Kontakt
 Autor: Loris Bieli  
 E-Mail: loris.bieli@bbzbl-it.ch
+
+---
+
+## Veröffentlichte Seite
+https://razrblade8102007.github.io/News-API-Projekt/
