@@ -1,44 +1,44 @@
-<!DOCTYPE html> <!-- Öffnet Element-Element -->
-<html lang="de"> <!-- Öffnet html-Element -->
-  <head> <!-- Öffnet head-Element -->
-    <meta charset="UTF-8" /> <!-- Selbstschließendes meta-Element -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- Selbstschließendes meta-Element -->
-    <title>News API Abfrage – Suche nach aktuellen Nachrichten</title> <!-- Öffnet title-Element -->
-    <meta <!-- Öffnet meta-Element -->
-      name="description" <!-- Attribut name des vorherigen Tags -->
-      content="Starte präzise News-API-Abfragen: Filter nach Sprache, Land, Kategorie, Quelle, Datum und Sortierung. Sofortige Ergebnisvorschau mit GET-URL." <!-- Attribut content des vorherigen Tags -->
-    /> <!-- Textinhalt -->
-    <meta name="robots" content="index,follow" /> <!-- Selbstschließendes meta-Element -->
-    <link rel="canonical" href="https://example.com/news-api-projekt" /> <!-- Canonical URL -->
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin /> <!-- Verbindungsaufbau zu CDN -->
-    <meta property="og:type" content="website" /> <!-- Selbstschließendes meta-Element -->
-    <meta property="og:title" content="News API Abfrage – Suche nach aktuellen Nachrichten" /> <!-- Selbstschließendes meta-Element -->
-    <meta <!-- Öffnet meta-Element -->
-      property="og:description" <!-- Attribut property des vorherigen Tags -->
-      content="News-Suche mit der News API: Filter nach Quelle, Sprache, Land, Kategorie und Datum. Vorschau der vollständigen GET-URL inklusive Query-Parametern." <!-- Attribut content des vorherigen Tags -->
-    /> <!-- Textinhalt -->
-    <meta property="og:url" content="https://example.com/news-api-projekt" /> <!-- OG URL -->
-    <meta property="og:image" content="https://example.com/assets/newsapi-logo.svg" /> <!-- OG Bild -->
-    <meta name="twitter:card" content="summary_large_image" /> <!-- Selbstschließendes meta-Element -->
-    <meta name="twitter:title" content="News API Abfrage – Suche nach aktuellen Nachrichten" /> <!-- Selbstschließendes meta-Element -->
-    <meta <!-- Öffnet meta-Element -->
-      name="twitter:description" <!-- Attribut name des vorherigen Tags -->
-      content="Erstelle schnell News-API-Abfragen mit Filtern für Sprache, Land, Quelle, Kategorie, Datum und Sortierung." <!-- Attribut content des vorherigen Tags -->
-    /> <!-- Textinhalt -->
-    <meta name="twitter:image" content="https://example.com/assets/newsapi-logo.svg" /> <!-- Twitter Bild -->
-    <link <!-- Öffnet link-Element -->
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" <!-- CDN URL Bootstrap -->
-      rel="stylesheet" <!-- Attribut rel des vorherigen Tags -->
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" <!-- Attribut integrity des vorherigen Tags -->
-      crossorigin="anonymous" <!-- Attribut crossorigin des vorherigen Tags -->
-    /> <!-- Textinhalt -->
-    <link <!-- Öffnet link-Element -->
-      rel="stylesheet" <!-- Attribut rel des vorherigen Tags -->
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" <!-- CDN URL Icons -->
-    /> <!-- Textinhalt -->
-    <link rel="icon" type="image/svg+xml" href="assets/newsapi-logo.svg" /> <!-- Selbstschließendes Typ image/svg+xml -->
-    <link rel="stylesheet" href="styles.css" /> <!-- Selbstschließendes link-Element -->
-    <script type="application/javascript"> <!-- Öffnet Typ application/javascript -->
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>News API Abfrage – Suche nach aktuellen Nachrichten</title>
+    <meta
+      name="description"
+      content="Starte präzise News-API-Abfragen: Filter nach Sprache, Land, Kategorie, Quelle, Datum und Sortierung. Sofortige Ergebnisvorschau mit GET-URL."
+    />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://example.com/news-api-projekt" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="News API Abfrage – Suche nach aktuellen Nachrichten" />
+    <meta
+      property="og:description"
+      content="News-Suche mit der News API: Filter nach Quelle, Sprache, Land, Kategorie und Datum. Vorschau der vollständigen GET-URL inklusive Query-Parametern."
+    />
+    <meta property="og:url" content="https://example.com/news-api-projekt" />
+    <meta property="og:image" content="https://example.com/assets/newsapi-logo.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="News API Abfrage – Suche nach aktuellen Nachrichten" />
+    <meta
+      name="twitter:description"
+      content="Erstelle schnell News-API-Abfragen mit Filtern für Sprache, Land, Quelle, Kategorie, Datum und Sortierung."
+    />
+    <meta name="twitter:image" content="https://example.com/assets/newsapi-logo.svg" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="icon" type="image/svg+xml" href="assets/newsapi-logo.svg" />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="application/javascript">
       const structuredData = { // JSON-LD Objektdefinition
         "@context": "https://schema.org", // Schema-Kontext
         "@type": "WebSite", // Typ des Schemas
@@ -50,450 +50,450 @@
           "query-input": "required name=searchTerm" // Parameterdefinition
         } // Ende Aktion
       }; document.head.insertAdjacentHTML("beforeend", `<script type="application/ld+json">${JSON.stringify(structuredData)}<\\/script>`); // Objekt erstellen und als JSON-LD einfügen
-    </script> <!-- Schließt script-Element -->
-  </head> <!-- Schließt head-Element -->
-  <body> <!-- Öffnet body-Element -->
-    <main class="container py-5"> <!-- Öffnet Klasse(n) container py-5 -->
-      <header class="page-hero card glass-panel border-0 rounded-4 shadow-sm mb-4 p-4"> <!-- Öffnet Klasse(n) page-hero card glass-panel border-0 rounded-4 shadow-sm mb-4 p-4 -->
-        <div <!-- Öffnet div-Element -->
-          class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3" <!-- Attribut class des vorherigen Tags -->
-        > <!-- Textinhalt -->
-          <div> <!-- Öffnet div-Element -->
-            <div class="hero-brand d-flex align-items-center gap-2 mb-3"> <!-- Öffnet Klasse(n) hero-brand d-flex align-items-center gap-2 mb-3 -->
-      <img <!-- Öffnet img-Element -->
-        src="assets/newsapi-logo.svg" <!-- Attribut src des vorherigen Tags -->
-        alt="News API Logo" <!-- Attribut alt des vorherigen Tags -->
-        loading="lazy" <!-- Attribut loading des vorherigen Tags -->
-        class="hero-brand__logo" <!-- Attribut class des vorherigen Tags -->
-        width="60" <!-- Attribut width des vorherigen Tags -->
-        height="60" <!-- Attribut height des vorherigen Tags -->
-      /> <!-- Textinhalt -->
-      <div> <!-- Öffnet div-Element -->
-                <p class="hero-brand__eyebrow text-uppercase mb-0"> <!-- Öffnet Klasse(n) hero-brand__eyebrow text-uppercase mb-0 -->
-                  News API Studio <!-- Attribut News des vorherigen Tags -->
-                </p> <!-- Schließt p-Element -->
-              </div> <!-- Schließt div-Element -->
-            </div> <!-- Schließt div-Element -->
-            <h1 class="page-hero__title h3 mb-2"> <!-- Öffnet Klasse(n) page-hero__title h3 mb-2 -->
-              Suche alle Nachrichten <!-- Attribut Suche des vorherigen Tags -->
-            </h1> <!-- Schließt h1-Element -->
-            <p class="page-hero__lead mb-0"> <!-- Öffnet Klasse(n) page-hero__lead mb-0 -->
-              Stelle präzise Anfragen an die News API: Wähle Quelle, Land, Sprache, Kategorie oder Datumsbereich, sortiere nach Aktualität, Relevanz oder Popularität und sieh sofort, welche GET-URL gesendet wird. <!-- Attribut Stelle des vorherigen Tags -->
-            </p> <!-- Schließt p-Element -->
-          </div> <!-- Schließt div-Element -->
-        </div> <!-- Schließt div-Element -->
-      </header> <!-- Schließt header-Element -->
-<!-- Leerzeile zur Strukturierung -->
-      <section class="card shadow-sm border-0 mb-4"> <!-- Öffnet Klasse(n) card shadow-sm border-0 mb-4 -->
-        <div class="card-body p-4"> <!-- Öffnet Klasse(n) card-body p-4 -->
-          <div class="step-indicator mb-4" role="list" aria-label="Formularfortschritt"> <!-- Öffnet Klasse(n) step-indicator mb-4 -->
-            <span class="step-indicator__item active" role="listitem" data-step-label="Basis"> <!-- Öffnet Klasse(n) step-indicator__item active -->
-              <span class="step-indicator__circle">1</span> <!-- Öffnet Klasse(n) step-indicator__circle -->
-              <span class="step-indicator__text">Grunddaten</span> <!-- Öffnet Klasse(n) step-indicator__text -->
-            </span> <!-- Schließt span-Element -->
-            <span class="step-indicator__item" role="listitem" data-step-label="Filter"> <!-- Öffnet Klasse(n) step-indicator__item -->
-              <span class="step-indicator__circle">2</span> <!-- Öffnet Klasse(n) step-indicator__circle -->
-              <span class="step-indicator__text">Filter</span> <!-- Öffnet Klasse(n) step-indicator__text -->
-            </span> <!-- Schließt span-Element -->
-            <span class="step-indicator__item" role="listitem" data-step-label="Ausgabe"> <!-- Öffnet Klasse(n) step-indicator__item -->
-              <span class="step-indicator__circle">3</span> <!-- Öffnet Klasse(n) step-indicator__circle -->
-              <span class="step-indicator__text">Ausgabe</span> <!-- Öffnet Klasse(n) step-indicator__text -->
-            </span> <!-- Schließt span-Element -->
-          </div> <!-- Schließt div-Element -->
-<!-- Leerzeile zur Strukturierung -->
-          <form id="newsForm" novalidate> <!-- Öffnet ID "newsForm" -->
-            <section <!-- Öffnet section-Element -->
-              class="form-step active" <!-- Attribut class des vorherigen Tags -->
-              data-step="1" <!-- Attribut data-step des vorherigen Tags -->
-              aria-label="Grunddaten eingeben" <!-- Attribut aria-label des vorherigen Tags -->
-            > <!-- Textinhalt -->
-              <input type="hidden" name="mode" value="everything" /> <!-- Selbstschließendes Name "mode", Typ hidden -->
-              <div class="row g-3"> <!-- Öffnet Klasse(n) row g-3 -->
-                <div class="col-12"> <!-- Öffnet Klasse(n) col-12 -->
-                  <div class="label-with-info"> <!-- Öffnet Klasse(n) label-with-info -->
-                    <label for="searchTerm" class="form-label fw-semibold"> <!-- Öffnet Klasse(n) form-label fw-semibold -->
-                      Suchbegriff <!-- Attribut Suchbegriff des vorherigen Tags -->
-                    </label> <!-- Schließt label-Element -->
-                    <button <!-- Öffnet button-Element -->
-                      type="button" <!-- Attribut type des vorherigen Tags -->
-                      class="info-button" <!-- Attribut class des vorherigen Tags -->
-                      aria-label="Hinweis zu Suchbegriff" <!-- Attribut aria-label des vorherigen Tags -->
-                      aria-expanded="false" <!-- Attribut aria-expanded des vorherigen Tags -->
-                      aria-controls="info-searchTerm" <!-- Attribut aria-controls des vorherigen Tags -->
-                    > <!-- Textinhalt -->
-                      <i class="bi bi-info-circle"></i> <!-- Öffnet Klasse(n) bi bi-info-circle -->
-                    </button> <!-- Schließt button-Element -->
-                    <div class="info-bubble" id="info-searchTerm" role="status"> <!-- Öffnet ID "info-searchTerm", Klasse(n) info-bubble -->
-                      Stichwort für die Suche eingeben, mindestens 2 Zeichen. <!-- Attribut Stichwort des vorherigen Tags -->
-                    </div> <!-- Schließt div-Element -->
-                  </div> <!-- Schließt div-Element -->
-                  <div class="input-group"> <!-- Öffnet Klasse(n) input-group -->
-                    <span class="input-group-text"> <!-- Öffnet Klasse(n) input-group-text -->
-                      <i class="bi bi-search"></i> <!-- Öffnet Klasse(n) bi bi-search -->
-                    </span> <!-- Schließt span-Element -->
-                    <input <!-- Öffnet input-Element -->
-                      type="text" <!-- Attribut type des vorherigen Tags -->
-                      id="searchTerm" <!-- Attribut id des vorherigen Tags -->
-                      name="searchTerm" <!-- Attribut name des vorherigen Tags -->
-                      class="form-control" <!-- Attribut class des vorherigen Tags -->
-                      placeholder="Politik, KI, Nachhaltigkeit …" <!-- Attribut placeholder des vorherigen Tags -->
-                      aria-describedby="searchTermHint searchTermError" <!-- Attribut aria-describedby des vorherigen Tags -->
-                      required <!-- Attribut required des vorherigen Tags -->
-                    /> <!-- Textinhalt -->
-                  </div> <!-- Schließt div-Element -->
-                  <div id="searchTermHint" class="form-text"> <!-- Öffnet ID "searchTermHint", Klasse(n) form-text -->
-                    Mindestens 2 Zeichen (z. B. KI). <!-- Attribut Mindestens des vorherigen Tags -->
-                  </div> <!-- Schließt div-Element -->
-                  <div id="searchTermError" class="invalid-feedback" aria-live="polite"> <!-- Öffnet ID "searchTermError", Klasse(n) invalid-feedback -->
-                    Bitte einen gültigen Suchbegriff eingeben. <!-- Attribut Bitte des vorherigen Tags -->
-                  </div> <!-- Schließt div-Element -->
-                </div> <!-- Schließt div-Element -->
-<!-- Leerzeile zur Strukturierung -->
-                <div class="col-md-6" id="categoryGroup"> <!-- Öffnet ID "categoryGroup", Klasse(n) col-md-6 -->
-                  <label for="category" class="form-label fw-semibold"> <!-- Öffnet Klasse(n) form-label fw-semibold -->
-                    Kategorie <!-- Attribut Kategorie des vorherigen Tags -->
-                  </label> <!-- Schließt label-Element -->
-                  <select <!-- Öffnet select-Element -->
-                    id="category" <!-- Attribut id des vorherigen Tags -->
-                    name="category" <!-- Attribut name des vorherigen Tags -->
-                    class="form-select" <!-- Attribut class des vorherigen Tags -->
-                    aria-describedby="categoryHint categoryError" <!-- Attribut aria-describedby des vorherigen Tags -->
-                  > <!-- Textinhalt -->
-                    <option value="">Keine Auswahl</option> <!-- Öffnet option-Element -->
-                    <option value="business">Wirtschaft</option> <!-- Öffnet option-Element -->
-                    <option value="entertainment">Unterhaltung</option> <!-- Öffnet option-Element -->
-                    <option value="general">Allgemein</option> <!-- Öffnet option-Element -->
-                    <option value="health">Gesundheit</option> <!-- Öffnet option-Element -->
-                    <option value="science">Wissenschaft</option> <!-- Öffnet option-Element -->
-                    <option value="sports">Sport</option> <!-- Öffnet option-Element -->
-                    <option value="technology">Technologie</option> <!-- Öffnet option-Element -->
-                  </select> <!-- Schließt select-Element -->
-                  <div id="categoryHint" class="form-text">Nur für Top Headlines.</div> <!-- Öffnet ID "categoryHint", Klasse(n) form-text -->
-                  <div id="categoryError" class="invalid-feedback"></div> <!-- Öffnet ID "categoryError", Klasse(n) invalid-feedback -->
-                </div> <!-- Schließt div-Element -->
-<!-- Leerzeile zur Strukturierung -->
-                <div class="col-md-6" id="sourceGroup"> <!-- Öffnet ID "sourceGroup", Klasse(n) col-md-6 -->
-                  <div class="label-with-info"> <!-- Öffnet Klasse(n) label-with-info -->
-                    <label for="source" class="form-label fw-semibold"> <!-- Öffnet Klasse(n) form-label fw-semibold -->
-                      Quelle <!-- Attribut Quelle des vorherigen Tags -->
-                    </label> <!-- Schließt label-Element -->
-                    <button <!-- Öffnet button-Element -->
-                      type="button" <!-- Attribut type des vorherigen Tags -->
-                      class="info-button" <!-- Attribut class des vorherigen Tags -->
-                      aria-label="Hinweis zu Quelle" <!-- Attribut aria-label des vorherigen Tags -->
-                      aria-expanded="false" <!-- Attribut aria-expanded des vorherigen Tags -->
-                      aria-controls="info-source" <!-- Attribut aria-controls des vorherigen Tags -->
-                    > <!-- Textinhalt -->
-                      <i class="bi bi-info-circle"></i> <!-- Öffnet Klasse(n) bi bi-info-circle -->
-                    </button> <!-- Schließt button-Element -->
-                    <div class="info-bubble" id="info-source" role="status"> <!-- Öffnet ID "info-source", Klasse(n) info-bubble -->
-                      Wähle eine konkrete Nachrichtenquelle. <!-- Attribut W des vorherigen Tags -->
-                    </div> <!-- Schließt div-Element -->
-                  </div> <!-- Schließt div-Element -->
-                  <select <!-- Öffnet select-Element -->
-                    id="source" <!-- Attribut id des vorherigen Tags -->
-                    name="source" <!-- Attribut name des vorherigen Tags -->
-                    class="form-select" <!-- Attribut class des vorherigen Tags -->
-                    aria-describedby="sourceHint sourceError" <!-- Attribut aria-describedby des vorherigen Tags -->
-                  > <!-- Textinhalt -->
-                    <option value="">Keine Auswahl</option> <!-- Öffnet option-Element -->
-                    <optgroup label="🇩🇪 Deutsch"> <!-- Öffnet optgroup-Element -->
-                      <option value="die-zeit">Die Zeit</option> <!-- Öffnet option-Element -->
-                      <option value="bild">BILD</option> <!-- Öffnet option-Element -->
-                      <option value="der-tagesspiegel">Der Tagesspiegel</option> <!-- Öffnet option-Element -->
-                    </optgroup> <!-- Schließt optgroup-Element -->
-                    <optgroup label="🇬🇧 Englisch"> <!-- Öffnet optgroup-Element -->
-                      <option value="bbc-news">BBC News</option> <!-- Öffnet option-Element -->
-                      <option value="cnn">CNN</option> <!-- Öffnet option-Element -->
-                      <option value="bloomberg">Bloomberg</option> <!-- Öffnet option-Element -->
-                      <option value="associated-press">Associated Press</option> <!-- Öffnet option-Element -->
-                      <option value="reuters">Reuters</option> <!-- Öffnet option-Element -->
-                    </optgroup> <!-- Schließt optgroup-Element -->
-                    <optgroup label="🇫🇷 Französisch"> <!-- Öffnet optgroup-Element -->
-                      <option value="le-monde">Le Monde</option> <!-- Öffnet option-Element -->
-                      <option value="liberation">Libération</option> <!-- Öffnet option-Element -->
-                      <option value="les-echos">Les Échos</option> <!-- Öffnet option-Element -->
-                    </optgroup> <!-- Schließt optgroup-Element -->
-                  </select> <!-- Schließt select-Element -->
-                  <div id="sourceHint" class="form-text"></div> <!-- Öffnet ID "sourceHint", Klasse(n) form-text -->
-                  <div id="sourceConstraint" class="form-text text-danger d-none"> <!-- Öffnet ID "sourceConstraint", Klasse(n) form-text text-danger d-none -->
-                    Quelle aktiv: Land & Kategorie deaktiviert. <!-- Attribut Quelle des vorherigen Tags -->
-                  </div> <!-- Schließt div-Element -->
-                  <div id="sourceError" class="invalid-feedback"></div> <!-- Öffnet ID "sourceError", Klasse(n) invalid-feedback -->
-                </div> <!-- Schließt div-Element -->
-              </div> <!-- Schließt div-Element -->
-            </section> <!-- Schließt section-Element -->
-<!-- Leerzeile zur Strukturierung -->
-            <section class="form-step" data-step="2" aria-label="Filter einstellen"> <!-- Öffnet Klasse(n) form-step -->
-              <div class="row g-3"> <!-- Öffnet Klasse(n) row g-3 -->
-                <div class="col-md-4" id="countryGroup"> <!-- Öffnet ID "countryGroup", Klasse(n) col-md-4 -->
-                  <label for="country" class="form-label fw-semibold">Land</label> <!-- Öffnet Klasse(n) form-label fw-semibold -->
-                  <select <!-- Öffnet select-Element -->
-                    id="country" <!-- Attribut id des vorherigen Tags -->
-                    name="country" <!-- Attribut name des vorherigen Tags -->
-                    class="form-select" <!-- Attribut class des vorherigen Tags -->
-                    aria-describedby="countryHint countryError" <!-- Attribut aria-describedby des vorherigen Tags -->
-                  > <!-- Textinhalt -->
-                    <option value="">Beliebig</option> <!-- Öffnet option-Element -->
-                    <option value="us">USA</option> <!-- Öffnet option-Element -->
-                    <option value="gb">Großbritannien</option> <!-- Öffnet option-Element -->
-                    <option value="de">Deutschland</option> <!-- Öffnet option-Element -->
-                    <option value="fr">Frankreich</option> <!-- Öffnet option-Element -->
-                    <option value="it">Italien</option> <!-- Öffnet option-Element -->
-                    <option value="ch">Schweiz</option> <!-- Öffnet option-Element -->
-                  </select> <!-- Schließt select-Element -->
-                  <div id="countryHint" class="form-text">Nur für Top Headlines.</div> <!-- Öffnet ID "countryHint", Klasse(n) form-text -->
-                  <div id="countryError" class="invalid-feedback"></div> <!-- Öffnet ID "countryError", Klasse(n) invalid-feedback -->
-                </div> <!-- Schließt div-Element -->
-<!-- Leerzeile zur Strukturierung -->
-                <div class="col-md-4" id="languageGroup"> <!-- Öffnet ID "languageGroup", Klasse(n) col-md-4 -->
-                <div class="label-with-info"> <!-- Öffnet Klasse(n) label-with-info -->
-                  <label for="language" class="form-label fw-semibold"> <!-- Öffnet Klasse(n) form-label fw-semibold -->
-                    Sprache <!-- Attribut Sprache des vorherigen Tags -->
-                  </label> <!-- Schließt label-Element -->
-                  <button <!-- Öffnet button-Element -->
-                    type="button" <!-- Attribut type des vorherigen Tags -->
-                    class="info-button" <!-- Attribut class des vorherigen Tags -->
-                    aria-label="Hinweis zu Sprache" <!-- Attribut aria-label des vorherigen Tags -->
-                    aria-expanded="false" <!-- Attribut aria-expanded des vorherigen Tags -->
-                    aria-controls="info-language" <!-- Attribut aria-controls des vorherigen Tags -->
-                  > <!-- Textinhalt -->
-                    <i class="bi bi-info-circle"></i> <!-- Öffnet Klasse(n) bi bi-info-circle -->
-                  </button> <!-- Schließt button-Element -->
-                  <div class="info-bubble" id="info-language" role="status"> <!-- Öffnet ID "info-language", Klasse(n) info-bubble -->
-                    Sprache der Artikel wählen. <!-- Attribut Sprache des vorherigen Tags -->
-                  </div> <!-- Schließt div-Element -->
-                </div> <!-- Schließt div-Element -->
-                <select <!-- Öffnet select-Element -->
-                  id="language" <!-- Attribut id des vorherigen Tags -->
-                  name="language" <!-- Attribut name des vorherigen Tags -->
-                  class="form-select" <!-- Attribut class des vorherigen Tags -->
-                  aria-describedby="languageError" <!-- Attribut aria-describedby des vorherigen Tags -->
-                > <!-- Textinhalt -->
-                  <option value="">Beliebig</option> <!-- Öffnet option-Element -->
-                  <option value="de">Deutsch</option> <!-- Öffnet option-Element -->
-                  <option value="en">Englisch</option> <!-- Öffnet option-Element -->
-                  <option value="fr">Französisch</option> <!-- Öffnet option-Element -->
-                    <option value="it">Italienisch</option> <!-- Öffnet option-Element -->
-                  <option value="es">Spanisch</option> <!-- Öffnet option-Element -->
-                </select> <!-- Schließt select-Element -->
-                <div id="languageError" class="invalid-feedback"></div> <!-- Öffnet ID "languageError", Klasse(n) invalid-feedback -->
-              </div> <!-- Schließt div-Element -->
-<!-- Leerzeile zur Strukturierung -->
-              <div class="col-md-4" id="sortGroup"> <!-- Öffnet ID "sortGroup", Klasse(n) col-md-4 -->
-                <div class="label-with-info"> <!-- Öffnet Klasse(n) label-with-info -->
-                  <label for="sortBy" class="form-label fw-semibold"> <!-- Öffnet Klasse(n) form-label fw-semibold -->
-                    Sortierung <!-- Attribut Sortierung des vorherigen Tags -->
-                  </label> <!-- Schließt label-Element -->
-                  <button <!-- Öffnet button-Element -->
-                    type="button" <!-- Attribut type des vorherigen Tags -->
-                    class="info-button" <!-- Attribut class des vorherigen Tags -->
-                    aria-label="Hinweis zu Sortierung" <!-- Attribut aria-label des vorherigen Tags -->
-                    aria-expanded="false" <!-- Attribut aria-expanded des vorherigen Tags -->
-                    aria-controls="info-sortBy" <!-- Attribut aria-controls des vorherigen Tags -->
-                  > <!-- Textinhalt -->
-                    <i class="bi bi-info-circle"></i> <!-- Öffnet Klasse(n) bi bi-info-circle -->
-                  </button> <!-- Schließt button-Element -->
-                  <div class="info-bubble" id="info-sortBy" role="status"> <!-- Öffnet ID "info-sortBy", Klasse(n) info-bubble -->
-                    Lege fest, ob nach Datum, Relevanz oder Popularität sortiert wird. <!-- Attribut Lege des vorherigen Tags -->
-                  </div> <!-- Schließt div-Element -->
-                </div> <!-- Schließt div-Element -->
-                <select <!-- Öffnet select-Element -->
-                  id="sortBy" <!-- Attribut id des vorherigen Tags -->
-                  name="sortBy" <!-- Attribut name des vorherigen Tags -->
-                  class="form-select" <!-- Attribut class des vorherigen Tags -->
-                  aria-describedby="sortByError" <!-- Attribut aria-describedby des vorherigen Tags -->
-                  required <!-- Attribut required des vorherigen Tags -->
-                > <!-- Textinhalt -->
-                  <option value="" disabled hidden label="Bitte wählen"></option> <!-- Öffnet option-Element -->
-                  <option value="publishedAt" selected>Neueste zuerst</option> <!-- Öffnet option-Element -->
-                  <option value="relevancy">Relevanz</option> <!-- Öffnet option-Element -->
-                  <option value="popularity">Beliebtheit</option> <!-- Öffnet option-Element -->
-                </select> <!-- Schließt select-Element -->
-                <div id="sortByError" class="invalid-feedback"></div> <!-- Öffnet ID "sortByError", Klasse(n) invalid-feedback -->
-              </div> <!-- Schließt div-Element -->
-<!-- Leerzeile zur Strukturierung -->
-                <div class="col-md-6"> <!-- Öffnet Klasse(n) col-md-6 -->
-                  <label for="fromDate" class="form-label fw-semibold"> <!-- Öffnet Klasse(n) form-label fw-semibold -->
-                    Von-Datum <!-- Attribut Von-Datum des vorherigen Tags -->
-                  </label> <!-- Schließt label-Element -->
-                  <input <!-- Öffnet input-Element -->
-                    type="date" <!-- Attribut type des vorherigen Tags -->
-                    id="fromDate" <!-- Attribut id des vorherigen Tags -->
-                    name="fromDate" <!-- Attribut name des vorherigen Tags -->
-                    class="form-control" <!-- Attribut class des vorherigen Tags -->
-                    aria-describedby="dateHint fromError" <!-- Attribut aria-describedby des vorherigen Tags -->
-                    required <!-- Attribut required des vorherigen Tags -->
-                  /> <!-- Textinhalt -->
-                  <div id="fromError" class="invalid-feedback"></div> <!-- Öffnet ID "fromError", Klasse(n) invalid-feedback -->
-                </div> <!-- Schließt div-Element -->
-<!-- Leerzeile zur Strukturierung -->
-                <div class="col-md-6"> <!-- Öffnet Klasse(n) col-md-6 -->
-                  <label for="toDate" class="form-label fw-semibold"> <!-- Öffnet Klasse(n) form-label fw-semibold -->
-                    Bis-Datum <!-- Attribut Bis-Datum des vorherigen Tags -->
-                  </label> <!-- Schließt label-Element -->
-                  <input <!-- Öffnet input-Element -->
-                    type="date" <!-- Attribut type des vorherigen Tags -->
-                    id="toDate" <!-- Attribut id des vorherigen Tags -->
-                    name="toDate" <!-- Attribut name des vorherigen Tags -->
-                    class="form-control" <!-- Attribut class des vorherigen Tags -->
-                    aria-describedby="dateHint toError" <!-- Attribut aria-describedby des vorherigen Tags -->
-                    required <!-- Attribut required des vorherigen Tags -->
-                  /> <!-- Textinhalt -->
-                  <div id="toError" class="invalid-feedback"></div> <!-- Öffnet ID "toError", Klasse(n) invalid-feedback -->
-                </div> <!-- Schließt div-Element -->
-<!-- Leerzeile zur Strukturierung -->
-                <div class="col-12"> <!-- Öffnet Klasse(n) col-12 -->
-                  <div id="dateHint" class="form-text"> <!-- Öffnet ID "dateHint", Klasse(n) form-text -->
-                    Format: TT-MM-JJJJ. Das Bis-Datum darf nicht vor dem Von-Datum liegen. Man kann maximal 30 Tage zurück. <!-- Attribut Format: des vorherigen Tags -->
-                  </div> <!-- Schließt div-Element -->
-                </div> <!-- Schließt div-Element -->
-              </div> <!-- Schließt div-Element -->
-            </section> <!-- Schließt section-Element -->
-<!-- Leerzeile zur Strukturierung -->
-            <section class="form-step" data-step="3" aria-label="Ausgabeoptionen"> <!-- Öffnet Klasse(n) form-step -->
-              <div class="row g-3"> <!-- Öffnet Klasse(n) row g-3 -->
-                <div class="col-12"> <!-- Öffnet Klasse(n) col-12 -->
-                  <div class="range-card"> <!-- Öffnet Klasse(n) range-card -->
-                    <div class="range-card__head"> <!-- Öffnet Klasse(n) range-card__head -->
-                      <div> <!-- Öffnet div-Element -->
-                        <p class="range-card__eyebrow">Ausgabe</p> <!-- Öffnet Klasse(n) range-card__eyebrow -->
-                        <p class="range-card__title h6 mb-1">Anzahl Ergebnisse</p> <!-- Öffnet Klasse(n) range-card__title h6 mb-1 -->
-                        <p class="range-card__hint mb-0"> <!-- Öffnet Klasse(n) range-card__hint mb-0 -->
-                          Ziehe den Regler, um festzulegen, wie viele Artikel pro Seite angezeigt werden. <!-- Attribut Ziehe des vorherigen Tags -->
-                        </p> <!-- Schließt p-Element -->
-                      </div> <!-- Schließt div-Element -->
-                      <div class="range-card__badge" aria-live="polite"> <!-- Öffnet Klasse(n) range-card__badge -->
-                        <span id="pageSizeValue">20</span> <!-- Öffnet ID "pageSizeValue" -->
-                        <small>pro Seite</small> <!-- Öffnet small-Element -->
-                      </div> <!-- Schließt div-Element -->
-                    </div> <!-- Schließt div-Element -->
-                    <div class="range-card__control"> <!-- Öffnet Klasse(n) range-card__control -->
-                      <input <!-- Öffnet input-Element -->
-                        type="range" <!-- Attribut type des vorherigen Tags -->
-                        id="pageSize" <!-- Attribut id des vorherigen Tags -->
-                        name="pageSize" <!-- Attribut name des vorherigen Tags -->
-                        class="form-range range-card__slider" <!-- Attribut class des vorherigen Tags -->
-                        min="5" <!-- Attribut min des vorherigen Tags -->
-                        max="100" <!-- Attribut max des vorherigen Tags -->
-                        step="5" <!-- Attribut step des vorherigen Tags -->
-                        value="20" <!-- Attribut value des vorherigen Tags -->
-                        aria-label="Anzahl Ergebnisse pro Seite" <!-- Attribut aria-label des vorherigen Tags -->
-                      /> <!-- Textinhalt -->
-                      <div class="range-card__scale"> <!-- Öffnet Klasse(n) range-card__scale -->
-                        <span>5</span> <!-- Öffnet span-Element -->
-                        <span>50</span> <!-- Öffnet span-Element -->
-                        <span>100</span> <!-- Öffnet span-Element -->
-                      </div> <!-- Schließt div-Element -->
-                    </div> <!-- Schließt div-Element -->
-                  </div> <!-- Schließt div-Element -->
-                </div> <!-- Schließt div-Element -->
-<!-- Leerzeile zur Strukturierung -->
-                <input type="hidden" id="page" name="page" value="1" /> <!-- Selbstschließendes ID "page", Name "page", Typ hidden -->
-<!-- Leerzeile zur Strukturierung -->
-                <div class="col-12"> <!-- Öffnet Klasse(n) col-12 -->
-                  <div <!-- Öffnet div-Element -->
-                    class="alert alert-info d-flex align-items-center gap-2" <!-- Attribut class des vorherigen Tags -->
-                    role="status" <!-- Attribut role des vorherigen Tags -->
-                    aria-live="polite" <!-- Attribut aria-live des vorherigen Tags -->
-                    id="formStatus" <!-- Attribut id des vorherigen Tags -->
-                  > <!-- Textinhalt -->
-                    <i class="bi bi-info-circle-fill"></i> <!-- Öffnet Klasse(n) bi bi-info-circle-fill -->
-                    <span>Keine Anfrage aktiv. Prüfe kurz und starte die Suche.</span> <!-- Öffnet span-Element -->
-                  </div> <!-- Schließt div-Element -->
-                </div> <!-- Schließt div-Element -->
-              </div> <!-- Schließt div-Element -->
-            </section> <!-- Schließt section-Element -->
-<!-- Leerzeile zur Strukturierung -->
-            <div class="form-navigation d-flex justify-content-between align-items-center"> <!-- Öffnet Klasse(n) form-navigation d-flex justify-content-between align-items-center -->
-              <button <!-- Öffnet button-Element -->
-                type="button" <!-- Attribut type des vorherigen Tags -->
-                class="btn btn-outline-secondary" <!-- Attribut class des vorherigen Tags -->
-                id="prevStep" <!-- Attribut id des vorherigen Tags -->
-                disabled <!-- Attribut disabled des vorherigen Tags -->
-              > <!-- Textinhalt -->
-                <i class="bi bi-arrow-left"></i> <!-- Öffnet Klasse(n) bi bi-arrow-left -->
-                Zurück <!-- Attribut Zur des vorherigen Tags -->
-              </button> <!-- Schließt button-Element -->
-              <div class="d-flex gap-2"> <!-- Öffnet Klasse(n) d-flex gap-2 -->
-                <button type="reset" class="btn btn-outline-secondary" id="resetFilters"> <!-- Öffnet ID "resetFilters", Klasse(n) btn btn-outline-secondary, Typ reset -->
-                  Filter zurücksetzen <!-- Attribut Filter des vorherigen Tags -->
-                </button> <!-- Schließt button-Element -->
-                <button type="button" class="btn btn-primary" id="nextStep"> <!-- Öffnet ID "nextStep", Klasse(n) btn btn-primary, Typ button -->
-                  Weiter <!-- Attribut Weiter des vorherigen Tags -->
-                  <i class="bi bi-arrow-right"></i> <!-- Öffnet Klasse(n) bi bi-arrow-right -->
-                </button> <!-- Schließt button-Element -->
-                <button type="submit" class="btn btn-success d-none" id="submitForm"> <!-- Öffnet ID "submitForm", Klasse(n) btn btn-success d-none, Typ submit -->
-                  <i class="bi bi-play-fill"></i> <!-- Öffnet Klasse(n) bi bi-play-fill -->
-                  Suche starten <!-- Attribut Suche des vorherigen Tags -->
-                </button> <!-- Schließt button-Element -->
-              </div> <!-- Schließt div-Element -->
-            </div> <!-- Schließt div-Element -->
-          </form> <!-- Schließt form-Element -->
-        </div> <!-- Schließt div-Element -->
-      </section> <!-- Schließt section-Element -->
-<!-- Leerzeile zur Strukturierung -->
-      <section class="card shadow-sm border-0" id="resultsSection" aria-live="polite"> <!-- Öffnet ID "resultsSection", Klasse(n) card shadow-sm border-0 -->
-        <div class="card-body p-4"> <!-- Öffnet Klasse(n) card-body p-4 -->
-          <div class="d-flex justify-content-between align-items-center mb-3"> <!-- Öffnet Klasse(n) d-flex justify-content-between align-items-center mb-3 -->
-            <div> <!-- Öffnet div-Element -->
-              <p class="text-uppercase text-primary fw-semibold mb-1">Trefferliste</p> <!-- Öffnet Klasse(n) text-uppercase text-primary fw-semibold mb-1 -->
-              <h2 class="h5 mb-0">Gefundene Artikel</h2> <!-- Öffnet Klasse(n) h5 mb-0 -->
-            </div> <!-- Schließt div-Element -->
-          </div> <!-- Schließt div-Element -->
-<!-- Leerzeile zur Strukturierung -->
-          <div id="loadingState" class="alert alert-secondary d-none" role="status"> <!-- Öffnet ID "loadingState", Klasse(n) alert alert-secondary d-none -->
-            <div class="d-flex align-items-center gap-2"> <!-- Öffnet Klasse(n) d-flex align-items-center gap-2 -->
-              <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div> <!-- Öffnet Klasse(n) spinner-border spinner-border-sm -->
-              <span>News werden geladen …</span> <!-- Öffnet span-Element -->
-            </div> <!-- Schließt div-Element -->
-          </div> <!-- Schließt div-Element -->
-<!-- Leerzeile zur Strukturierung -->
-          <div id="resultsContainer" class="news-list"> <!-- Öffnet ID "resultsContainer", Klasse(n) news-list -->
-            <p class="text-muted mb-0"> <!-- Öffnet Klasse(n) text-muted mb-0 -->
-              Noch keine Ergebnisse. Starte eine Suche, um Artikel anzeigen zu lassen. <!-- Attribut Noch des vorherigen Tags -->
-            </p> <!-- Schließt p-Element -->
-          </div> <!-- Schließt div-Element -->
-<!-- Leerzeile zur Strukturierung -->
-          <div class="request-preview mt-4"> <!-- Öffnet Klasse(n) request-preview mt-4 -->
-            <div class="d-flex justify-content-between align-items-center mb-2"> <!-- Öffnet Klasse(n) d-flex justify-content-between align-items-center mb-2 -->
-              <div> <!-- Öffnet div-Element -->
-                <p class="text-uppercase text-primary fw-semibold mb-1"> <!-- Öffnet Klasse(n) text-uppercase text-primary fw-semibold mb-1 -->
-                  Letzter Request <!-- Attribut Letzter des vorherigen Tags -->
-                </p> <!-- Schließt p-Element -->
-                <p class="request-preview__meta mb-0"> <!-- Öffnet Klasse(n) request-preview__meta mb-0 -->
-                  Vollständige GET-URL inklusive Query-Parametern. <!-- Attribut Vollst des vorherigen Tags -->
-                </p> <!-- Schließt p-Element -->
-              </div> <!-- Schließt div-Element -->
-              <button <!-- Öffnet button-Element -->
-                class="request-preview__toggle d-inline-flex align-items-center gap-2" <!-- Attribut class des vorherigen Tags -->
-                type="button" <!-- Attribut type des vorherigen Tags -->
-                data-bs-toggle="collapse" <!-- Attribut data-bs-toggle des vorherigen Tags -->
-                data-bs-target="#requestPreviewCollapse" <!-- Attribut data-bs-target des vorherigen Tags -->
-                title="Letzte Anfrage ein- oder ausblenden" <!-- Attribut title des vorherigen Tags -->
-                aria-expanded="false" <!-- Attribut aria-expanded des vorherigen Tags -->
-                aria-controls="requestPreviewCollapse" <!-- Attribut aria-controls des vorherigen Tags -->
-              > <!-- Textinhalt -->
-                <span>anzeigen</span> <!-- Öffnet span-Element -->
-                <i class="bi bi-chevron-down" aria-hidden="true"></i> <!-- Öffnet Klasse(n) bi bi-chevron-down -->
-              </button> <!-- Schließt button-Element -->
-            </div> <!-- Schließt div-Element -->
-            <div class="collapse" id="requestPreviewCollapse"> <!-- Öffnet ID "requestPreviewCollapse", Klasse(n) collapse -->
-              <pre class="request-preview__code" id="requestPreview"> <!-- Öffnet ID "requestPreview", Klasse(n) request-preview__code -->
+    </script>
+  </head>
+  <body>
+    <main class="container py-5">
+      <header class="page-hero card glass-panel border-0 rounded-4 shadow-sm mb-4 p-4">
+        <div
+          class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3"
+        >
+          <div>
+            <div class="hero-brand d-flex align-items-center gap-2 mb-3">
+      <img
+        src="assets/newsapi-logo.svg"
+        alt="News API Logo"
+        loading="lazy"
+        class="hero-brand__logo"
+        width="60"
+        height="60"
+      />
+      <div>
+                <p class="hero-brand__eyebrow text-uppercase mb-0">
+                  News API Studio
+                </p>
+              </div>
+            </div>
+            <h1 class="page-hero__title h3 mb-2">
+              Suche alle Nachrichten
+            </h1>
+            <p class="page-hero__lead mb-0">
+              Stelle präzise Anfragen an die News API: Wähle Quelle, Land, Sprache, Kategorie oder Datumsbereich, sortiere nach Aktualität, Relevanz oder Popularität und sieh sofort, welche GET-URL gesendet wird.
+            </p>
+          </div>
+        </div>
+      </header>
+
+      <section class="card shadow-sm border-0 mb-4">
+        <div class="card-body p-4">
+          <div class="step-indicator mb-4" role="list" aria-label="Formularfortschritt">
+            <span class="step-indicator__item active" role="listitem" data-step-label="Basis">
+              <span class="step-indicator__circle">1</span>
+              <span class="step-indicator__text">Grunddaten</span>
+            </span>
+            <span class="step-indicator__item" role="listitem" data-step-label="Filter">
+              <span class="step-indicator__circle">2</span>
+              <span class="step-indicator__text">Filter</span>
+            </span>
+            <span class="step-indicator__item" role="listitem" data-step-label="Ausgabe">
+              <span class="step-indicator__circle">3</span>
+              <span class="step-indicator__text">Ausgabe</span>
+            </span>
+          </div>
+
+          <form id="newsForm" novalidate>
+            <section
+              class="form-step active"
+              data-step="1"
+              aria-label="Grunddaten eingeben"
+            >
+              <input type="hidden" name="mode" value="everything" />
+              <div class="row g-3">
+                <div class="col-12">
+                  <div class="label-with-info">
+                    <label for="searchTerm" class="form-label fw-semibold">
+                      Suchbegriff
+                    </label>
+                    <button
+                      type="button"
+                      class="info-button"
+                      aria-label="Hinweis zu Suchbegriff"
+                      aria-expanded="false"
+                      aria-controls="info-searchTerm"
+                    >
+                      <i class="bi bi-info-circle"></i>
+                    </button>
+                    <div class="info-bubble" id="info-searchTerm" role="status">
+                      Stichwort für die Suche eingeben, mindestens 2 Zeichen.
+                    </div>
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-text">
+                      <i class="bi bi-search"></i>
+                    </span>
+                    <input
+                      type="text"
+                      id="searchTerm"
+                      name="searchTerm"
+                      class="form-control"
+                      placeholder="Politik, KI, Nachhaltigkeit …"
+                      aria-describedby="searchTermHint searchTermError"
+                      required
+                    />
+                  </div>
+                  <div id="searchTermHint" class="form-text">
+                    Mindestens 2 Zeichen (z. B. KI).
+                  </div>
+                  <div id="searchTermError" class="invalid-feedback" aria-live="polite">
+                    Bitte einen gültigen Suchbegriff eingeben.
+                  </div>
+                </div>
+
+                <div class="col-md-6" id="categoryGroup">
+                  <label for="category" class="form-label fw-semibold">
+                    Kategorie
+                  </label>
+                  <select
+                    id="category"
+                    name="category"
+                    class="form-select"
+                    aria-describedby="categoryHint categoryError"
+                  >
+                    <option value="">Keine Auswahl</option>
+                    <option value="business">Wirtschaft</option>
+                    <option value="entertainment">Unterhaltung</option>
+                    <option value="general">Allgemein</option>
+                    <option value="health">Gesundheit</option>
+                    <option value="science">Wissenschaft</option>
+                    <option value="sports">Sport</option>
+                    <option value="technology">Technologie</option>
+                  </select>
+                  <div id="categoryHint" class="form-text">Nur für Top Headlines.</div>
+                  <div id="categoryError" class="invalid-feedback"></div>
+                </div>
+
+                <div class="col-md-6" id="sourceGroup">
+                  <div class="label-with-info">
+                    <label for="source" class="form-label fw-semibold">
+                      Quelle
+                    </label>
+                    <button
+                      type="button"
+                      class="info-button"
+                      aria-label="Hinweis zu Quelle"
+                      aria-expanded="false"
+                      aria-controls="info-source"
+                    >
+                      <i class="bi bi-info-circle"></i>
+                    </button>
+                    <div class="info-bubble" id="info-source" role="status">
+                      Wähle eine konkrete Nachrichtenquelle.
+                    </div>
+                  </div>
+                  <select
+                    id="source"
+                    name="source"
+                    class="form-select"
+                    aria-describedby="sourceHint sourceError"
+                  >
+                    <option value="">Keine Auswahl</option>
+                    <optgroup label="🇩🇪 Deutsch">
+                      <option value="die-zeit">Die Zeit</option>
+                      <option value="bild">BILD</option>
+                      <option value="der-tagesspiegel">Der Tagesspiegel</option>
+                    </optgroup>
+                    <optgroup label="🇬🇧 Englisch">
+                      <option value="bbc-news">BBC News</option>
+                      <option value="cnn">CNN</option>
+                      <option value="bloomberg">Bloomberg</option>
+                      <option value="associated-press">Associated Press</option>
+                      <option value="reuters">Reuters</option>
+                    </optgroup>
+                    <optgroup label="🇫🇷 Französisch">
+                      <option value="le-monde">Le Monde</option>
+                      <option value="liberation">Libération</option>
+                      <option value="les-echos">Les Échos</option>
+                    </optgroup>
+                  </select>
+                  <div id="sourceHint" class="form-text"></div>
+                  <div id="sourceConstraint" class="form-text text-danger d-none">
+                    Quelle aktiv: Land & Kategorie deaktiviert.
+                  </div>
+                  <div id="sourceError" class="invalid-feedback"></div>
+                </div>
+              </div>
+            </section>
+
+            <section class="form-step" data-step="2" aria-label="Filter einstellen">
+              <div class="row g-3">
+                <div class="col-md-4" id="countryGroup">
+                  <label for="country" class="form-label fw-semibold">Land</label>
+                  <select
+                    id="country"
+                    name="country"
+                    class="form-select"
+                    aria-describedby="countryHint countryError"
+                  >
+                    <option value="">Beliebig</option>
+                    <option value="us">USA</option>
+                    <option value="gb">Großbritannien</option>
+                    <option value="de">Deutschland</option>
+                    <option value="fr">Frankreich</option>
+                    <option value="it">Italien</option>
+                    <option value="ch">Schweiz</option>
+                  </select>
+                  <div id="countryHint" class="form-text">Nur für Top Headlines.</div>
+                  <div id="countryError" class="invalid-feedback"></div>
+                </div>
+
+                <div class="col-md-4" id="languageGroup">
+                <div class="label-with-info">
+                  <label for="language" class="form-label fw-semibold">
+                    Sprache
+                  </label>
+                  <button
+                    type="button"
+                    class="info-button"
+                    aria-label="Hinweis zu Sprache"
+                    aria-expanded="false"
+                    aria-controls="info-language"
+                  >
+                    <i class="bi bi-info-circle"></i>
+                  </button>
+                  <div class="info-bubble" id="info-language" role="status">
+                    Sprache der Artikel wählen.
+                  </div>
+                </div>
+                <select
+                  id="language"
+                  name="language"
+                  class="form-select"
+                  aria-describedby="languageError"
+                >
+                  <option value="">Beliebig</option>
+                  <option value="de">Deutsch</option>
+                  <option value="en">Englisch</option>
+                  <option value="fr">Französisch</option>
+                    <option value="it">Italienisch</option>
+                  <option value="es">Spanisch</option>
+                </select>
+                <div id="languageError" class="invalid-feedback"></div>
+              </div>
+
+              <div class="col-md-4" id="sortGroup">
+                <div class="label-with-info">
+                  <label for="sortBy" class="form-label fw-semibold">
+                    Sortierung
+                  </label>
+                  <button
+                    type="button"
+                    class="info-button"
+                    aria-label="Hinweis zu Sortierung"
+                    aria-expanded="false"
+                    aria-controls="info-sortBy"
+                  >
+                    <i class="bi bi-info-circle"></i>
+                  </button>
+                  <div class="info-bubble" id="info-sortBy" role="status">
+                    Lege fest, ob nach Datum, Relevanz oder Popularität sortiert wird.
+                  </div>
+                </div>
+                <select
+                  id="sortBy"
+                  name="sortBy"
+                  class="form-select"
+                  aria-describedby="sortByError"
+                  required
+                >
+                  <option value="" disabled hidden label="Bitte wählen"></option>
+                  <option value="publishedAt" selected>Neueste zuerst</option>
+                  <option value="relevancy">Relevanz</option>
+                  <option value="popularity">Beliebtheit</option>
+                </select>
+                <div id="sortByError" class="invalid-feedback"></div>
+              </div>
+
+                <div class="col-md-6">
+                  <label for="fromDate" class="form-label fw-semibold">
+                    Von-Datum
+                  </label>
+                  <input
+                    type="date"
+                    id="fromDate"
+                    name="fromDate"
+                    class="form-control"
+                    aria-describedby="dateHint fromError"
+                    required
+                  />
+                  <div id="fromError" class="invalid-feedback"></div>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="toDate" class="form-label fw-semibold">
+                    Bis-Datum
+                  </label>
+                  <input
+                    type="date"
+                    id="toDate"
+                    name="toDate"
+                    class="form-control"
+                    aria-describedby="dateHint toError"
+                    required
+                  />
+                  <div id="toError" class="invalid-feedback"></div>
+                </div>
+
+                <div class="col-12">
+                  <div id="dateHint" class="form-text">
+                    Format: TT-MM-JJJJ. Das Bis-Datum darf nicht vor dem Von-Datum liegen. Man kann maximal 30 Tage zurück.
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="form-step" data-step="3" aria-label="Ausgabeoptionen">
+              <div class="row g-3">
+                <div class="col-12">
+                  <div class="range-card">
+                    <div class="range-card__head">
+                      <div>
+                        <p class="range-card__eyebrow">Ausgabe</p>
+                        <p class="range-card__title h6 mb-1">Anzahl Ergebnisse</p>
+                        <p class="range-card__hint mb-0">
+                          Ziehe den Regler, um festzulegen, wie viele Artikel pro Seite angezeigt werden.
+                        </p>
+                      </div>
+                      <div class="range-card__badge" aria-live="polite">
+                        <span id="pageSizeValue">20</span>
+                        <small>pro Seite</small>
+                      </div>
+                    </div>
+                    <div class="range-card__control">
+                      <input
+                        type="range"
+                        id="pageSize"
+                        name="pageSize"
+                        class="form-range range-card__slider"
+                        min="5"
+                        max="100"
+                        step="5"
+                        value="20"
+                        aria-label="Anzahl Ergebnisse pro Seite"
+                      />
+                      <div class="range-card__scale">
+                        <span>5</span>
+                        <span>50</span>
+                        <span>100</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <input type="hidden" id="page" name="page" value="1" />
+
+                <div class="col-12">
+                  <div
+                    class="alert alert-info d-flex align-items-center gap-2"
+                    role="status"
+                    aria-live="polite"
+                    id="formStatus"
+                  >
+                    <i class="bi bi-info-circle-fill"></i>
+                    <span>Keine Anfrage aktiv. Prüfe kurz und starte die Suche.</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <div class="form-navigation d-flex justify-content-between align-items-center">
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                id="prevStep"
+                disabled
+              >
+                <i class="bi bi-arrow-left"></i>
+                Zurück
+              </button>
+              <div class="d-flex gap-2">
+                <button type="reset" class="btn btn-outline-secondary" id="resetFilters">
+                  Filter zurücksetzen
+                </button>
+                <button type="button" class="btn btn-primary" id="nextStep">
+                  Weiter
+                  <i class="bi bi-arrow-right"></i>
+                </button>
+                <button type="submit" class="btn btn-success d-none" id="submitForm">
+                  <i class="bi bi-play-fill"></i>
+                  Suche starten
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="card shadow-sm border-0" id="resultsSection" aria-live="polite">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <p class="text-uppercase text-primary fw-semibold mb-1">Trefferliste</p>
+              <h2 class="h5 mb-0">Gefundene Artikel</h2>
+            </div>
+          </div>
+
+          <div id="loadingState" class="alert alert-secondary d-none" role="status">
+            <div class="d-flex align-items-center gap-2">
+              <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div>
+              <span>News werden geladen …</span>
+            </div>
+          </div>
+
+          <div id="resultsContainer" class="news-list">
+            <p class="text-muted mb-0">
+              Noch keine Ergebnisse. Starte eine Suche, um Artikel anzeigen zu lassen.
+            </p>
+          </div>
+
+          <div class="request-preview mt-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <div>
+                <p class="text-uppercase text-primary fw-semibold mb-1">
+                  Letzter Request
+                </p>
+                <p class="request-preview__meta mb-0">
+                  Vollständige GET-URL inklusive Query-Parametern.
+                </p>
+              </div>
+              <button
+                class="request-preview__toggle d-inline-flex align-items-center gap-2"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#requestPreviewCollapse"
+                title="Letzte Anfrage ein- oder ausblenden"
+                aria-expanded="false"
+                aria-controls="requestPreviewCollapse"
+              >
+                <span>anzeigen</span>
+                <i class="bi bi-chevron-down" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div class="collapse" id="requestPreviewCollapse">
+              <pre class="request-preview__code" id="requestPreview">
 GET https://newsapi.org/v2/everything
-              </pre> <!-- Schließt pre-Element -->
-            </div> <!-- Schließt div-Element -->
-          </div> <!-- Schließt div-Element -->
-        </div> <!-- Schließt div-Element -->
-      </section> <!-- Schließt section-Element -->
-    </main> <!-- Schließt main-Element -->
-<!-- Leerzeile zur Strukturierung -->
-    <script <!-- Öffnet script-Element -->
+              </pre>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" <!-- Attribut integrity des vorherigen Tags -->
-      crossorigin="anonymous" <!-- Attribut crossorigin des vorherigen Tags -->
-      defer <!-- Attribut defer des vorherigen Tags -->
-    ></script> <!-- Textinhalt -->
-    <script src="script.js" defer></script> <!-- Öffnet script-Element -->
-  </body> <!-- Schließt body-Element -->
-</html> <!-- Schließt html-Element -->
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+      defer
+    ></script>
+    <script src="script.js" defer></script>
+  </body>
+</html>
