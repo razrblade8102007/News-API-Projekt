@@ -232,7 +232,7 @@ document.addEventListener("DOMContentLoaded", () => { // Startpunkt: erst ausfü
       } // Block/Funktionskörper schließen
     }); // Block/Funktionskörper schließen
     dateHint.textContent = enable // Hinweistext passend zum Zustand setzen
-      ? "Format: JJJJ-MM-TT. Das Bis-Datum darf nicht vor dem Von-Datum liegen." // Strukturhilfszeile
+      ? "Format: TT-MM-JJJJ. Das Bis-Datum darf nicht vor dem Von-Datum liegen. Man kann maximal 30 Tage zurück." // Strukturhilfszeile
       : "Datumsfilter stehen nur im Everything-Modus zur Verfügung."; // Strukturhilfszeile
   }; // Block/Funktionskörper schließen
   // Leerzeile (Lesbarkeit)

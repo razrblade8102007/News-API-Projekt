@@ -268,7 +268,7 @@
                   id="language"
                   name="language"
                   class="form-select"
-                  aria-describedby="languageHint languageError"
+                  aria-describedby="languageError"
                 >
                   <option value="">Beliebig</option>
                   <option value="de">Deutsch</option>
@@ -277,7 +277,6 @@
                     <option value="it">Italienisch</option>
                   <option value="es">Spanisch</option>
                 </select> <!-- Dropdown Sprache -->
-                <div id="languageHint" class="form-text">Nur im Everything-Modus.</div> <!-- Hinweis Sprache -->
                 <div id="languageError" class="invalid-feedback"></div> <!-- Fehler Sprache -->
               </div> <!-- Ende Sprache-Spalte -->
 
@@ -303,7 +302,7 @@
                   id="sortBy"
                   name="sortBy"
                   class="form-select"
-                  aria-describedby="sortHint sortByError"
+                  aria-describedby="sortByError"
                   required
                 >
                   <option value="" disabled hidden label="Bitte wählen"></option>
@@ -311,7 +310,6 @@
                   <option value="relevancy">Relevanz</option>
                   <option value="popularity">Beliebtheit</option>
                 </select> <!-- Dropdown Sortierung -->
-                <div id="sortHint" class="form-text">Nur im Everything-Modus.</div> <!-- Hinweis Sortierung -->
                 <div id="sortByError" class="invalid-feedback"></div> <!-- Fehler Sortierung -->
               </div> <!-- Ende Sortierung -->
 
@@ -347,7 +345,7 @@
 
                 <div class="col-12"> <!-- Hinweis Datumsbereich -->
                   <div id="dateHint" class="form-text">
-                    Everything-Modus · Bis-Datum muss nach dem Von-Datum liegen.
+                    Format: TT-MM-JJJJ. Das Bis-Datum darf nicht vor dem Von-Datum liegen. Man kann maximal 30 Tage zurück.
                   </div> <!-- Text Datumsregel -->
                 </div> <!-- Ende Hinweis -->
               </div> <!-- Ende Row Schritt 2 -->
