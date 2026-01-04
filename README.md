@@ -1,83 +1,110 @@
-# News API Formular fürs Durchsuchen und Filtern aller Nachrichten
+# News API Formular
 
-## Kurzbeschreibung
-Dieses News-Formular erlaubt es dir, auf sämtliche Quellen der News API zuzugreifen und alle Artikel gezielt zu durchsuchen. Du hast verschiedene Filter- und Sortierungsmöglichkeiten, wie beispielsweise Quelle, Sprache und Zeitraum sowie die Sortierung nach neuesten, relevantesten oder beliebtesten Artikeln. Damit findest du zu einem beliebigen Thema alle Quellen, in denen dein eingegebener Suchbegriff vorkommt.
+Ein webbasiertes Formular zum Durchsuchen, Filtern und Analysieren von Nachrichten aus allen verfügbaren Quellen der News API.
+Das Projekt richtet sich an Lernende, Schüler:innen und alle, die schnell und gezielt Informationen zu aktuellen Themen recherchieren möchten.
 
-Das Formular hilft dir besonders bei Recherchen, etwa zu aktuellen Themen wie KI, Politik oder Gesellschaft. Im Handumdrehen findest du genau die Informationen, die du brauchst.
+Es löst das Problem, dass Nachrichten oft nur quellen- oder plattformspezifisch durchsuchbar sind, und bündelt diese Recherche in einem einzigen, geführten Interface.
 
----
 
-## Motivation / Problemstellung
-Im Rahmen eines Schulmoduls bestand die Aufgabe darin, ein eigenes Projekt umzusetzen, das mit einer externen API arbeitet und dabei saubere Benutzerführung, Validierung sowie eine sinnvolle Struktur aufweist. Die grösste Herausforderung lag darin, eine geeignete, kostenlose und offen zugängliche API zu finden, die genügend Funktionsumfang bietet und gleichzeitig für ein Schulprojekt realistisch einsetzbar ist.
+## Inhaltsverzeichnis
 
-Mit der News API konnte diese Problemstellung gut gelöst werden: Sie stellt strukturierte Nachrichten aus vielen verschiedenen Quellen bereit und erlaubt komplexe Filter- und Suchabfragen. Ziel dieses Projekts war es, diese Möglichkeiten in ein benutzerfreundliches, mehrstufiges Formular zu überführen und dabei Aspekte wie UX, Barrierefreiheit, Validierung und saubere Code-Struktur bewusst umzusetzen.
+- Überblick
+- Installation
+- Verwendung
+- Technologien
+- Mitwirken
+- Lizenz
+- Autor
 
----
 
-## Verwendung / Beispiele
-Das Formular wird direkt im Browser verwendet.
+## Überblick
 
-Typischer Ablauf:
-1. Suchbegriff eingeben (z. B. „KI“, „Politik“, „Nachhaltigkeit“).
+Dieses Projekt ist ein mehrstufiges News-Recherche-Formular, das auf der News API basiert.
+
+Ziele des Projekts:
+- Zugriff auf möglichst viele Nachrichtenquellen über eine zentrale Oberfläche
+- Saubere Benutzerführung mit Validierung und verständlichem Feedback
+- Praxisnahe Umsetzung eines API-basierten Webprojekts im Schulkontext
+
+Funktionalität:
+- Suche nach frei wählbaren Suchbegriffen
+- Umfangreiche Filter (Quelle, Sprache, Zeitraum, Sortierung)
+- Anzeige der tatsächlich verwendeten API-Request-URL
+- Dynamische Ergebnisdarstellung ohne Seiten-Reload
+
+Nutzen:
+- Effiziente Themenrecherche für Schule, Präsentationen und Texte
+- Vergleich von Berichterstattung aus verschiedenen Ländern und Quellen
+- Übungsprojekt für API-Nutzung, UX und Frontend-Logik
+
+Live-Demo:
+https://razrblade8102007.github.io/News-API-Projekt/
+
+
+## Installation
+
+Lokale Ausführung ist optional, da das Projekt direkt über GitHub Pages läuft.
+
+Falls du es lokal testen möchtest:
+
+- Repository klonen
+  git clone https://github.com/razrblade8102007/News-API-Projekt.git
+
+- In das Verzeichnis wechseln
+  cd News-API-Projekt
+
+- Projekt im Browser öffnen (z. B. über einen lokalen Webserver oder Live Server)
+
+Es sind keine zusätzlichen Abhängigkeiten oder Build-Schritte notwendig.
+
+
+## Verwendung
+
+Typischer Ablauf im Browser:
+
+1. Suchbegriff eingeben (z. B. „KI“, „Politik“, „Nachhaltigkeit“)
 2. Optional Filter setzen:
-   - Quelle (z. B. BBC News, Reuters, Die Zeit)
+   - Quelle
    - Sprache
-   - Zeitraum (Von- / Bis-Datum)
+   - Zeitraum (Von-/Bis-Datum)
    - Sortierung (Relevanz, Aktualität, Popularität)
-3. Anfrage absenden.
-4. Die passenden Artikel werden angezeigt, inklusive Vorschau der tatsächlich verwendeten GET-Request-URL.
+3. Anfrage absenden
+4. Passende Artikel werden dynamisch angezeigt
 
-Das Tool eignet sich besonders für:
-- Schulische Recherchen
-- Themenrecherchen für Präsentationen oder Texte
-- Schnelle Übersicht über Berichterstattung aus verschiedenen Ländern und Quellen
+Zusätzlich wird die generierte API-Request-URL angezeigt, um das Verständnis für API-Abfragen zu fördern.
 
----
 
-## Features / Funktionsübersicht
-- Mehrstufiges, geführtes Formular (Wizard)
-- Clientseitige Validierung mit JavaScript
-- Verständliche Fehlermeldungen und Hilfetexte
-- Filter nach:
-  - Suchbegriff
-  - Quelle
-  - Sprache
-  - Land / Kategorie (abhängig vom Modus)
-  - Datumsbereich
-- Sortierung nach Relevanz, Aktualität oder Popularität
-- Dynamische Anzeige der generierten API-Request-URL
-- Barrierearme Umsetzung (klare Struktur, Labels, Feedback)
-- Moderne UI mit Bootstrap und eigenem CSS (Glass-/Card-Design)
-- Fehler- und Request-Handling im JavaScript
+## Technologien
 
----
+Verwendete Technologien und Tools:
 
-## Mitwirken / Contribution
-Dieses Projekt wurde vollständig von mir umgesetzt.
+- HTML5
+- CSS3
+- JavaScript (DOM, Fetch API, clientseitige Validierung)
+- Bootstrap
+- News API (REST-API)
+- GitHub Pages (Hosting)
 
-- Planung
-- Konzeption
-- Design
-- Umsetzung (HTML, CSS, JavaScript)
-- Testing und Validierung
 
-Autor und alleinige Beitragsperson:
-Loris Bieli
+## Mitwirken
 
----
+Dieses Projekt wurde vollständig von mir umgesetzt und dient primär als Schul- und Lernprojekt.
+
+Beiträge sind aktuell nicht vorgesehen. Das Repository kann jedoch gerne geforkt oder als Referenz verwendet werden.
+
 
 ## Lizenz
+
 Die verwendeten Daten stammen aus der News API.
-Es gelten die Lizenz- und Nutzungsbedingungen der News API:
+Es gelten die Lizenz- und Nutzungsbedingungen von:
 https://newsapi.org
 
----
+Der Projektcode dient zu Lernzwecken.
 
-## Autor:innen & Kontakt
-Autor: Loris Bieli  
+
+## Autor
+
+Loris Bieli
 E-Mail: loris.bieli@bbzbl-it.ch
 
----
-
-## Veröffentlichte Seite
-https://razrblade8102007.github.io/News-API-Projekt/
+GitHub: https://github.com/razrblade8102007
